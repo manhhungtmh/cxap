@@ -201,5 +201,10 @@ namespace BAITAPLONCHOT
                 this.listView1.Invalidate();
             }
         }
+
+        private void groupBox19_Enter(object sender, EventArgs e)
+        {
+
+        }
     }
 }
