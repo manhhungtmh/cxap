@@ -41,7 +41,7 @@ namespace BAITAPLONCHOT
 
         }
         //Lấy mã nhân viên trong bảng tblss
-        private string get_manv()
+        public static string get_manv()
         {
             frmDangNhap.check();
             string manv = "";
@@ -55,6 +55,7 @@ namespace BAITAPLONCHOT
                 manv = reader.GetString(1);
                 reader.Close();
             }
+
             return manv;
         }
 

@@ -258,7 +258,8 @@ begin
 		end
 	if(@action = N'selectall')
 		begin
-			select * from tblNhanVien
+			select * from tblNhanVien where bTrangThai = 1
+			order by sMaNV DESC
 		end
 	if(@action = N'lock')
 		begin
@@ -296,7 +297,7 @@ as
 begin
 	if(@action = 'selectall')
 		begin
-			select * from tblKhachHang
+			select * from tblKhachHang where bTrangThai = 1
 			order by sMaKH DESC
 		end
 	if(@action  = 'selectone')
@@ -411,7 +412,7 @@ SELECT dbo.fcgetMaHD();
 -----------------------------------------
 SELECT * FROM tblHoaDon
 --Hóa đơn
-create proc sp_hoadon
+alter proc sp_hoadon
 @mahd char(10) = null,
 @makh char(10) = null,
 @manv char(10) = null,
@@ -431,7 +432,7 @@ begin
 		end
 	if(@action = 'selectall')
 		begin
-			select * from tblHoaDon
+			select * from tblHoaDon where bTrangThai = 1
 		end
 	if(@action = 'selectone')
 		begin
@@ -455,3 +456,10 @@ begin
 			where sMaHD = @mahd
 		end
 end
+--lấy mã tiếp theo trong bảng tblHoaDon
+create proc sp_mahd
+as
+begin
+	select dbo.fcgetMaHD()
+end
+exec sp_mahd

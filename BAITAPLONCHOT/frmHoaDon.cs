@@ -32,11 +32,39 @@ namespace BAITAPLONCHOT
 
         private void frmHoaDon_Load(object sender, EventArgs e)
         {
-            hoadon_ngaythang.Format = DateTimePickerFormat.Custom;
-            hoadon_ngaythang.CustomFormat = "MM/yyyy";
-            hoadon_ngaythang.ShowUpDown = true;
+            dNgayLap.Format = DateTimePickerFormat.Custom;
+            dNgayLap.CustomFormat = "MM/yyyy";
+            dNgayLap.ShowUpDown = true;
+            hienthihoadon();
         }
+        private void hienthihoadon()
+        {
+            frmDangNhap.check();
+            SqlCommand command = new SqlCommand();
+            command.CommandType = CommandType.StoredProcedure;
+            command.CommandText = "sp_hoadon";
+            command.Connection = frmDangNhap.conn;
+            command.Parameters.Add("action", "selectall");
+            DataTable dtb = new DataTable();
+            SqlDataAdapter da = new SqlDataAdapter(command);
+            da.Fill(dtb);
 
+            foreach (DataRow row in dtb.Rows)
+            {
+                ListViewItem item = new ListViewItem(row["sMaHD"].ToString());
+                item.SubItems.Add(row["sMaKH"].ToString());
+                item.SubItems.Add(row["sMaNV"].ToString());
+                item.SubItems.Add(row["dNgayLap"].ToString());
+                item.SubItems.Add(row["dTuNgay"].ToString());
+                item.SubItems.Add(row["dDenNgay"].ToString());
+                item.SubItems.Add(row["fChiSoCu"].ToString());
+                item.SubItems.Add(row["fChiSoMoi"].ToString());
+                item.SubItems.Add(row["fThueGTGT"].ToString());
+                item.SubItems.Add((bool)(row["bTrangThai"]) == true ? "Đang sử dụng" : "Không sử dụng");
+                lvHoaDon.Items.Add(item);
+            }
+
+        }
         private void label8_Click(object sender, EventArgs e)
         {
 
@@ -159,5 +187,23 @@ namespace BAITAPLONCHOT
         {
             
         }
+
+        private void btnThem_Click(object sender, EventArgs e)
+        {
+            frmDangNhap.check();
+            SqlCommand command = new SqlCommand();
+            command.CommandType = CommandType.StoredProcedure;
+            command.CommandText = "sp_mahd";
+            command.Connection = frmDangNhap.conn;
+            SqlDataReader reader = command.ExecuteReader();
+            if (reader.Read())
+            {
+                txtMaHD.Text = reader.GetString(0);
+                reader.Close();
+            }
+            string mahd = frmInformation.get_manv();
+            txtMaNV.Text = mahd;
+        }
+
     }
 }
