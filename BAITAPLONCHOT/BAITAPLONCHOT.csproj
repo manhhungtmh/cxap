@@ -97,12 +97,6 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Thongke_Hoadon.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="Thongke_Hoadon.Designer.cs">
-      <DependentUpon>Thongke_Hoadon.cs</DependentUpon>
-    </Compile>
     <EmbeddedResource Include="frmDangNhap.resx">
       <DependentUpon>frmDangNhap.cs</DependentUpon>
     </EmbeddedResource>
@@ -134,9 +128,6 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
-    <EmbeddedResource Include="Thongke_Hoadon.resx">
-      <DependentUpon>Thongke_Hoadon.cs</DependentUpon>
-    </EmbeddedResource>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
