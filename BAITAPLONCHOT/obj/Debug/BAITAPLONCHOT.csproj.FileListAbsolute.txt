@@ -78,6 +78,7 @@ C:\Users\hungh\Documents\Visual Studio 2013\Projects\cSharp_BTL\BAITAPLONCHOT\ob
 C:\Users\hungh\Documents\Visual Studio 2013\Projects\cSharp_BTL\BAITAPLONCHOT\obj\Debug\BAITAPLONCHOT.Properties.Resources.resources
 C:\Users\hungh\Documents\Visual Studio 2013\Projects\cSharp_BTL\BAITAPLONCHOT\obj\Debug\BAITAPLONCHOT.Thongke_Hoadon.resources
 C:\Users\hungh\Documents\Visual Studio 2013\Projects\cSharp_BTL\BAITAPLONCHOT\obj\Debug\BAITAPLONCHOT.csproj.GenerateResource.Cache
+<<<<<<< HEAD
 C:\Users\hungh\Desktop\fit\cxap\BAITAPLONCHOT\bin\Debug\BAITAPLONCHOT.exe.config
 C:\Users\hungh\Desktop\fit\cxap\BAITAPLONCHOT\obj\Debug\BAITAPLONCHOT.exe
 C:\Users\hungh\Desktop\fit\cxap\BAITAPLONCHOT\obj\Debug\BAITAPLONCHOT.pdb
@@ -106,3 +107,41 @@ C:\Users\hungh\Desktop\fit\cxap\BAITAPLONCHOT\obj\Debug\BAITAPLONCHOT.frmThongKe
 C:\Users\hungh\Desktop\fit\cxap\BAITAPLONCHOT\obj\Debug\BAITAPLONCHOT.Properties.Resources.resources
 C:\Users\hungh\Desktop\fit\cxap\BAITAPLONCHOT\obj\Debug\BAITAPLONCHOT.Thongke_Hoadon.resources
 C:\Users\hungh\Desktop\fit\cxap\BAITAPLONCHOT\obj\Debug\BAITAPLONCHOT.csproj.GenerateResource.Cache
+=======
+C:\Users\My Computer\Desktop\New folder\cxap\BAITAPLONCHOT\bin\Debug\BAITAPLONCHOT.exe.config
+C:\Users\My Computer\Desktop\New folder\cxap\BAITAPLONCHOT\bin\Debug\BAITAPLONCHOT.exe
+C:\Users\My Computer\Desktop\New folder\cxap\BAITAPLONCHOT\bin\Debug\BAITAPLONCHOT.pdb
+C:\Users\My Computer\Desktop\New folder\cxap\BAITAPLONCHOT\bin\Debug\CrystalDecisions.CrystalReports.Engine.dll
+C:\Users\My Computer\Desktop\New folder\cxap\BAITAPLONCHOT\bin\Debug\CrystalDecisions.ReportSource.dll
+C:\Users\My Computer\Desktop\New folder\cxap\BAITAPLONCHOT\bin\Debug\CrystalDecisions.Shared.dll
+C:\Users\My Computer\Desktop\New folder\cxap\BAITAPLONCHOT\bin\Debug\CrystalDecisions.Windows.Forms.dll
+C:\Users\My Computer\Desktop\New folder\cxap\BAITAPLONCHOT\bin\Debug\FlashControlV71.dll
+C:\Users\My Computer\Desktop\New folder\cxap\BAITAPLONCHOT\bin\Debug\CrystalDecisions.ReportAppServer.DataDefModel.dll
+C:\Users\My Computer\Desktop\New folder\cxap\BAITAPLONCHOT\bin\Debug\CrystalDecisions.ReportAppServer.ClientDoc.dll
+C:\Users\My Computer\Desktop\New folder\cxap\BAITAPLONCHOT\bin\Debug\CrystalDecisions.ReportAppServer.ReportDefModel.dll
+C:\Users\My Computer\Desktop\New folder\cxap\BAITAPLONCHOT\bin\Debug\CrystalDecisions.ReportAppServer.Controllers.dll
+C:\Users\My Computer\Desktop\New folder\cxap\BAITAPLONCHOT\bin\Debug\CrystalDecisions.ReportAppServer.CommLayer.dll
+C:\Users\My Computer\Desktop\New folder\cxap\BAITAPLONCHOT\bin\Debug\CrystalDecisions.ReportAppServer.DataSetConversion.dll
+C:\Users\My Computer\Desktop\New folder\cxap\BAITAPLONCHOT\bin\Debug\CrystalDecisions.ReportAppServer.Prompting.dll
+C:\Users\My Computer\Desktop\New folder\cxap\BAITAPLONCHOT\bin\Debug\CrystalDecisions.ReportAppServer.XmlSerialize.dll
+C:\Users\My Computer\Desktop\New folder\cxap\BAITAPLONCHOT\bin\Debug\CrystalDecisions.ReportAppServer.CubeDefModel.dll
+C:\Users\My Computer\Desktop\New folder\cxap\BAITAPLONCHOT\bin\Debug\CrystalDecisions.ReportAppServer.CommonObjectModel.dll
+C:\Users\My Computer\Desktop\New folder\cxap\BAITAPLONCHOT\bin\Debug\CrystalDecisions.ReportAppServer.ObjectFactory.dll
+C:\Users\My Computer\Desktop\New folder\cxap\BAITAPLONCHOT\bin\Debug\ShockwaveFlashObjects.dll
+C:\Users\My Computer\Desktop\New folder\cxap\BAITAPLONCHOT\bin\Debug\CrystalDecisions.ReportAppServer.CommonControls.dll
+C:\Users\My Computer\Desktop\New folder\cxap\BAITAPLONCHOT\bin\Debug\stdole.dll
+C:\Users\My Computer\Desktop\New folder\cxap\BAITAPLONCHOT\obj\Debug\BAITAPLONCHOT.csprojAssemblyReference.cache
+C:\Users\My Computer\Desktop\New folder\cxap\BAITAPLONCHOT\obj\Debug\BAITAPLONCHOT.frmDangNhap.resources
+C:\Users\My Computer\Desktop\New folder\cxap\BAITAPLONCHOT\obj\Debug\BAITAPLONCHOT.frmGiaoDienHeThong.resources
+C:\Users\My Computer\Desktop\New folder\cxap\BAITAPLONCHOT\obj\Debug\BAITAPLONCHOT.frmHoaDon.resources
+C:\Users\My Computer\Desktop\New folder\cxap\BAITAPLONCHOT\obj\Debug\BAITAPLONCHOT.frmInformation.resources
+C:\Users\My Computer\Desktop\New folder\cxap\BAITAPLONCHOT\obj\Debug\BAITAPLONCHOT.frmKhachHang.resources
+C:\Users\My Computer\Desktop\New folder\cxap\BAITAPLONCHOT\obj\Debug\BAITAPLONCHOT.frmNhanVien.resources
+C:\Users\My Computer\Desktop\New folder\cxap\BAITAPLONCHOT\obj\Debug\BAITAPLONCHOT.frmThongKe.resources
+C:\Users\My Computer\Desktop\New folder\cxap\BAITAPLONCHOT\obj\Debug\BAITAPLONCHOT.Properties.Resources.resources
+C:\Users\My Computer\Desktop\New folder\cxap\BAITAPLONCHOT\obj\Debug\BAITAPLONCHOT.csproj.GenerateResource.cache
+C:\Users\My Computer\Desktop\New folder\cxap\BAITAPLONCHOT\obj\Debug\BAITAPLONCHOT.csproj.CoreCompileInputs.cache
+C:\Users\My Computer\Desktop\New folder\cxap\BAITAPLONCHOT\obj\Debug\BAITAPLONCHOT.csproj.CopyComplete
+C:\Users\My Computer\Desktop\New folder\cxap\BAITAPLONCHOT\obj\Debug\BAITAPLONCHOT.exe
+C:\Users\My Computer\Desktop\New folder\cxap\BAITAPLONCHOT\obj\Debug\BAITAPLONCHOT.pdb
+>>>>>>> c7793358bc4868d6c3e83e7565507e9ce24d9f68

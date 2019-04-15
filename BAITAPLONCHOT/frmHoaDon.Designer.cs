@@ -139,6 +139,7 @@
             this.lvHoaDon.TabIndex = 4;
             this.lvHoaDon.UseCompatibleStateImageBehavior = false;
             this.lvHoaDon.View = System.Windows.Forms.View.Details;
+            this.lvHoaDon.SelectedIndexChanged += new System.EventHandler(this.lvHoaDon_SelectedIndexChanged);
             // 
             // columnHeader1
             // 
@@ -432,6 +433,7 @@
             this.txtChiSoMoi.Size = new System.Drawing.Size(132, 24);
             this.txtChiSoMoi.TabIndex = 5;
             this.txtChiSoMoi.TextChanged += new System.EventHandler(this.textBox5_TextChanged);
+            this.txtChiSoMoi.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtChiSoMoi_KeyPress);
             // 
             // txtThueGTGT
             // 
@@ -439,6 +441,7 @@
             this.txtThueGTGT.Name = "txtThueGTGT";
             this.txtThueGTGT.Size = new System.Drawing.Size(132, 24);
             this.txtThueGTGT.TabIndex = 6;
+            this.txtThueGTGT.Text = "0.1";
             // 
             // label10
             // 
@@ -474,6 +477,7 @@
             this.txtTongTien.ReadOnly = true;
             this.txtTongTien.Size = new System.Drawing.Size(132, 24);
             this.txtTongTien.TabIndex = 17;
+            this.txtTongTien.TextChanged += new System.EventHandler(this.txtTongTien_TextChanged);
             // 
             // label7
             // 
@@ -490,6 +494,7 @@
             this.txtChiSoCu.Name = "txtChiSoCu";
             this.txtChiSoCu.Size = new System.Drawing.Size(132, 24);
             this.txtChiSoCu.TabIndex = 21;
+            this.txtChiSoCu.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtChiSoCu_KeyPress);
             // 
             // groupBox1
             // 
@@ -518,6 +523,7 @@
             this.groupBox1.TabIndex = 0;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Chi tiết hóa đơn";
+            this.groupBox1.Enter += new System.EventHandler(this.groupBox1_Enter);
             // 
             // frmHoaDon
             // 
@@ -538,7 +544,7 @@
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "frmHoaDon";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "Quản lý hóa đơn";
+            this.Text = "d";
             this.MaximumSizeChanged += new System.EventHandler(this.frmHoaDon_MaximumSizeChanged);
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.frmHoaDon_FormClosing);
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.frmHoaDon_FormClosed);

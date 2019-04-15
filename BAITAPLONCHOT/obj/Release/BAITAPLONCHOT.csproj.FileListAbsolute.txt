@@ -1,0 +1,15 @@
+C:\Users\hungh\Desktop\fit\cxap\BAITAPLONCHOT\bin\Release\BAITAPLONCHOT.exe.config
+C:\Users\hungh\Desktop\fit\cxap\BAITAPLONCHOT\bin\Release\BAITAPLONCHOT.exe
+C:\Users\hungh\Desktop\fit\cxap\BAITAPLONCHOT\bin\Release\BAITAPLONCHOT.pdb
+C:\Users\hungh\Desktop\fit\cxap\BAITAPLONCHOT\obj\Release\BAITAPLONCHOT.csprojResolveAssemblyReference.cache
+C:\Users\hungh\Desktop\fit\cxap\BAITAPLONCHOT\obj\Release\BAITAPLONCHOT.frmDangNhap.resources
+C:\Users\hungh\Desktop\fit\cxap\BAITAPLONCHOT\obj\Release\BAITAPLONCHOT.frmGiaoDienHeThong.resources
+C:\Users\hungh\Desktop\fit\cxap\BAITAPLONCHOT\obj\Release\BAITAPLONCHOT.frmHoaDon.resources
+C:\Users\hungh\Desktop\fit\cxap\BAITAPLONCHOT\obj\Release\BAITAPLONCHOT.frmInformation.resources
+C:\Users\hungh\Desktop\fit\cxap\BAITAPLONCHOT\obj\Release\BAITAPLONCHOT.frmKhachHang.resources
+C:\Users\hungh\Desktop\fit\cxap\BAITAPLONCHOT\obj\Release\BAITAPLONCHOT.frmNhanVien.resources
+C:\Users\hungh\Desktop\fit\cxap\BAITAPLONCHOT\obj\Release\BAITAPLONCHOT.frmThongKe.resources
+C:\Users\hungh\Desktop\fit\cxap\BAITAPLONCHOT\obj\Release\BAITAPLONCHOT.Properties.Resources.resources
+C:\Users\hungh\Desktop\fit\cxap\BAITAPLONCHOT\obj\Release\BAITAPLONCHOT.csproj.GenerateResource.Cache
+C:\Users\hungh\Desktop\fit\cxap\BAITAPLONCHOT\obj\Release\BAITAPLONCHOT.exe
+C:\Users\hungh\Desktop\fit\cxap\BAITAPLONCHOT\obj\Release\BAITAPLONCHOT.pdb

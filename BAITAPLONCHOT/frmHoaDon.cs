@@ -22,7 +22,39 @@ namespace BAITAPLONCHOT
 
         private void textBox5_TextChanged(object sender, EventArgs e)
         {
+            //float chisocu = float.Parse(txtChiSoCu.Text);
+            //float chisomoi = float.Parse(txtChiSoMoi.Text);
+            // //float check = chisomoi - chisocu;
+            // if (chisomoi < chisocu)
+            // {
+            //     MessageBox.Show("ĐỊt mẹ mày");
+            // }
+            int chisocu = int.Parse(txtChiSoCu.Text);
+            int chisomoi = int.Parse(txtChiSoMoi.Text);
+            int check = chisomoi - chisocu;
+            txtChiSoTieuThu.Text = check.ToString();
 
+        }
+        private float tongtien(int chisotieuthu)
+        {
+             int loai1, loai2, loai3, loai4;
+            if (chisotieuthu >= 10)
+            {
+                loai1 = 10;
+            }
+            else{
+                loai1 = chisotieuthu;
+            }
+            if (chisotieuthu >= 20)
+            {
+                loai2 = 10;
+            }
+            if (chisotieuthu >= 40)
+            {
+                loai3 = 20;
+            }
+            return 1;
+            //if(chisotieuthu>=)
         }
 
         private void label1_Click(object sender, EventArgs e)
@@ -203,6 +235,49 @@ namespace BAITAPLONCHOT
             }
             string mahd = frmInformation.get_manv();
             txtMaNV.Text = mahd;
+        }
+
+        private void groupBox1_Enter(object sender, EventArgs e)
+        {
+
+        }
+
+        private void txtChiSoCu_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (!Char.IsDigit(e.KeyChar) && !Char.IsControl(e.KeyChar))
+                {
+                    e.Handled = true;
+                    MessageBox.Show("Vui lòng nhập số");
+                }
+
+        }
+
+        private void txtChiSoMoi_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (!Char.IsDigit(e.KeyChar) && !Char.IsControl(e.KeyChar))
+            {
+                e.Handled = true;
+                MessageBox.Show("Vui lòng nhập số");
+            }
+        }
+
+        private void lvHoaDon_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (lvHoaDon.SelectedItems.Count > 0)
+            {
+                ListViewItem lvi = lvHoaDon.SelectedItems[0];
+                txtMaHD.Text = lvi.SubItems[0].Text;
+                txtMaKH.Text = lvi.SubItems[1].Text;
+                txtMaNV.Text = lvi.SubItems[2].Text;
+                txtChiSoCu.Text = lvi.SubItems[6].Text;
+                txtChiSoMoi.Text = lvi.SubItems[7].Text;
+                //float tinhtien = float.Parse(txtChiSoTieuThu.Text);
+             }
+        }
+
+        private void txtTongTien_TextChanged(object sender, EventArgs e)
+        {
+
         }
 
     }
