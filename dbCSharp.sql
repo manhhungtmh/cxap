@@ -463,3 +463,13 @@ begin
 	select dbo.fcgetMaHD()
 end
 exec sp_mahd
+--Lấy ra thuế của hóa đơn với mã truyền vào
+create proc sp_getthue
+@mahd char(10)
+as
+begin
+	select fThueGTGT
+	from tblHoaDon
+	where sMaHD = @mahd
+end
+exec sp_getthue @mahd = 'HD00000001'

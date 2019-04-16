@@ -441,7 +441,7 @@
             this.txtThueGTGT.Name = "txtThueGTGT";
             this.txtThueGTGT.Size = new System.Drawing.Size(132, 24);
             this.txtThueGTGT.TabIndex = 6;
-            this.txtThueGTGT.Text = "0.1";
+            this.txtThueGTGT.Text = "0,1";
             // 
             // label10
             // 
@@ -494,6 +494,7 @@
             this.txtChiSoCu.Name = "txtChiSoCu";
             this.txtChiSoCu.Size = new System.Drawing.Size(132, 24);
             this.txtChiSoCu.TabIndex = 21;
+            this.txtChiSoCu.TextChanged += new System.EventHandler(this.txtChiSoCu_TextChanged);
             this.txtChiSoCu.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtChiSoCu_KeyPress);
             // 
             // groupBox1

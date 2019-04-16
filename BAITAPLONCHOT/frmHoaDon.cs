@@ -17,44 +17,98 @@ namespace BAITAPLONCHOT
         public frmHoaDon()
         {
             InitializeComponent();
+            //Không cho phóng to form
             this.MaximizeBox = false;
         }
 
         private void textBox5_TextChanged(object sender, EventArgs e)
         {
-            //float chisocu = float.Parse(txtChiSoCu.Text);
-            //float chisomoi = float.Parse(txtChiSoMoi.Text);
-            // //float check = chisomoi - chisocu;
-            // if (chisomoi < chisocu)
-            // {
-            //     MessageBox.Show("ĐỊt mẹ mày");
-            // }
-            int chisocu = int.Parse(txtChiSoCu.Text);
-            int chisomoi = int.Parse(txtChiSoMoi.Text);
-            int check = chisomoi - chisocu;
-            txtChiSoTieuThu.Text = check.ToString();
+            if(txtChiSoCu.Text!=""&&txtChiSoMoi.Text!="")
+            {
+                int chisocu = 0, chisomoi = 0, chisotieuthu = 0;
+                chisocu = int.Parse(txtChiSoCu.Text);
+                chisomoi = int.Parse(txtChiSoMoi.Text);
+                chisotieuthu = chisomoi - chisocu;
+                if(chisotieuthu<0)
+                {
+                    MessageBox.Show("Chỉ số mới phải lớn hơn thằng ngu -.-", "Thông báo",MessageBoxButtons.OK,MessageBoxIcon.Warning);
+                }
+                else
+                {
+                    
+                    float ttkhongthue = 0, ttthue = 0, thue = 0;
+                    thue = float.Parse(txtThueGTGT.Text);
+                    txtChiSoTieuThu.Text = chisotieuthu.ToString();
+                    //Lấy tổng tiền
+                    ttkhongthue = tongtien(chisotieuthu);
+                    ttthue = ttkhongthue + (ttkhongthue * thue);
+                    txtTongTien.Text = ttthue.ToString();
+                }
+            }
 
         }
+
+        //Function tính tổng tiền chưa thuế.
         private float tongtien(int chisotieuthu)
         {
-             int loai1, loai2, loai3, loai4;
-            if (chisotieuthu >= 10)
+             int loai1 = 0, loai2 = 0, loai3 = 0, loai4 = 0;
+            //TA QUY ƯỚC NHƯ SAU.
+            // chỉ số tiêu thụ loại 1 = 10
+            // loại 2 = 10
+            // loại 3 = 20
+            // loại 4 = còn lại 
+            // VÍ DỤ. chỉ số tiêu thụ = 45 thì:
+            // Loại 1 : 10
+            // Loại 2 : 10
+            // Loại 3 : 20
+            // Loại 4 : 5
+             //Nếu chỉ số tiêu thụ trong khoảng 0->10 tiêu thụ loại 1 = chỉ số tiêu thụ
+             if (chisotieuthu > 0 && chisotieuthu <= 10)
+             {
+                 loai1 = chisotieuthu;
+             }
+            //Nếu chỉ số tiêu thụ nằm trong khoảng 10->20 tiêu tụ loại 1 = 10, loại 2 = chi số tiêu thụ trừ loại 1
+             if (chisotieuthu > 10 && chisotieuthu <= 20)
+             {
+                 loai1 = 10;
+                 loai2 = chisotieuthu - loai1;
+             }
+             //Nếu chỉ số tiêu thụ nằm trong khoảng 20->40 tiêu tụ loại 1 = 10, loại 2 = 10, loại 3 = chi số tiêu thụ trừ loại 1 - loại 2
+             if (chisotieuthu > 20 && chisotieuthu <= 40)
+             {
+                 loai1 = 10;
+                 loai2 = 10;
+                 loai3 = chisotieuthu - loai1 - loai2;
+             }
+            // Nếu chỉ số tiêu thụ lớn hơn 40 tiêu thụ loại 1 = 10,  loại 2 = 10, loại 3 = 20, loại 4 còn lại
+             if (chisotieuthu > 40)
+             {
+                 loai1 = 10;
+                 loai2 = 10;
+                 loai3 = 20;
+                 loai4 = chisotieuthu - loai1 - loai2 - loai3;
+             }
+             float tongtien = loai1 * 5000 + loai2 * 7000 + loai3 * 9000 + loai4 * 10000;
+            return tongtien;
+        }
+        //Function lấy thuế
+        private float getthue(string mahd)
+        {
+            float thue = 0;
+            frmDangNhap.check();
+            SqlCommand command = new SqlCommand();
+            command.CommandType = CommandType.StoredProcedure;
+            command.CommandText = "sp_getthue";
+            command.Connection = frmDangNhap.conn;
+            command.Parameters.Add("@mahd", mahd);
+            SqlDataReader reader = command.ExecuteReader();
+            if (reader.Read())
             {
-                loai1 = 10;
+                thue = reader.GetFloat(0);
+                reader.Close();
             }
-            else{
-                loai1 = chisotieuthu;
-            }
-            if (chisotieuthu >= 20)
-            {
-                loai2 = 10;
-            }
-            if (chisotieuthu >= 40)
-            {
-                loai3 = 20;
-            }
-            return 1;
-            //if(chisotieuthu>=)
+
+            return thue;
         }
 
         private void label1_Click(object sender, EventArgs e)
@@ -235,6 +289,12 @@ namespace BAITAPLONCHOT
             }
             string mahd = frmInformation.get_manv();
             txtMaNV.Text = mahd;
+            txtMaKH.Clear();
+            txtChiSoTieuThu.Clear();
+            txtChiSoCu.Clear();
+            txtChiSoMoi.Clear();
+            txtTimKiem.Clear();
+            txtTongTien.Clear();
         }
 
         private void groupBox1_Enter(object sender, EventArgs e)
@@ -271,13 +331,39 @@ namespace BAITAPLONCHOT
                 txtMaNV.Text = lvi.SubItems[2].Text;
                 txtChiSoCu.Text = lvi.SubItems[6].Text;
                 txtChiSoMoi.Text = lvi.SubItems[7].Text;
-                //float tinhtien = float.Parse(txtChiSoTieuThu.Text);
+                dNgayLap.Text = lvi.SubItems[5].Text;
              }
         }
 
         private void txtTongTien_TextChanged(object sender, EventArgs e)
         {
 
+        }
+
+        private void txtChiSoCu_TextChanged(object sender, EventArgs e)
+        {
+            if (txtChiSoCu.Text != "" && txtChiSoMoi.Text != "")
+            {
+                int chisocu = 0, chisomoi = 0, chisotieuthu = 0;
+                chisocu = int.Parse(txtChiSoCu.Text);
+                chisomoi = int.Parse(txtChiSoMoi.Text);
+                chisotieuthu = chisomoi - chisocu;
+                if (chisotieuthu < 0)
+                {
+                    MessageBox.Show("Chỉ số mới phải lớn hơn thằng ngu -.-", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                }
+                else
+                {
+
+                    float ttkhongthue = 0, ttthue = 0, thue = 0;
+                    thue = float.Parse(txtThueGTGT.Text);
+                    txtChiSoTieuThu.Text = chisotieuthu.ToString();
+                    //Lấy tổng tiền
+                    ttkhongthue = tongtien(chisotieuthu);
+                    ttthue = ttkhongthue + (ttkhongthue * thue);
+                    txtTongTien.Text = ttthue.ToString();
+                }
+            }
         }
 
     }
