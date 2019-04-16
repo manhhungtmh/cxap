@@ -56,6 +56,8 @@ create table tblHoaDon(
 	--fTongThanhToan float
 )
 alter table tblHoaDon
+alter column dDenNgay date
+alter table tblHoaDon
 add bTrangThai bit default 1
 --Khóa ngoại sMaKH
 alter table tblHoaDon
@@ -416,16 +418,16 @@ alter proc sp_hoadon
 @mahd char(10) = null,
 @makh char(10) = null,
 @manv char(10) = null,
-@ngaylap datetime = null,
-@tungay datetime = null,
-@denngay datetime = null,
+@ngaylap date = null,
+@tungay date = null,
+@denngay date = null,
 @chisocu float = null,
 @chisomoi float = null,
 @thuegtgt float = null,
 @action varchar(10) = null
 as
 begin
-	if(@action = 'insert')
+	if(@action = N'insert')
 		begin
 			insert into tblHoaDon
 			values(dbo.fcgetMaHD(),@makh,@manv,@ngaylap,@tungay,@denngay,@chisocu,@chisomoi,@thuegtgt,1)
@@ -433,6 +435,7 @@ begin
 	if(@action = 'selectall')
 		begin
 			select * from tblHoaDon where bTrangThai = 1
+			order by sMaHD DESC
 		end
 	if(@action = 'selectone')
 		begin
@@ -441,7 +444,8 @@ begin
 	if(@action = 'update')
 		begin
 			update tblHoaDon
-			set sMaKH = @makh, sMaNV = @manv, dNgayLap = @ngaylap, dTuNgay = @tungay, dDenNgay = @denngay, fChiSoCu = @chisocu, fChiSoMoi = @chisomoi, fThueGTGT = @thuegtgt
+			set sMaNV = @manv, dNgayLap = @ngaylap, dTuNgay = @tungay, dDenNgay = @denngay, fChiSoCu = @chisocu, fChiSoMoi = @chisomoi, fThueGTGT = @thuegtgt
+			where sMaHD = @mahd	
 		end
 	if(@action = 'lock')
 		begin
@@ -473,3 +477,13 @@ begin
 	where sMaHD = @mahd
 end
 exec sp_getthue @mahd = 'HD00000001'
+--Tìm kiếm hóa đơn
+alter proc sp_timkiemhoadon
+@data varchar(255)
+as
+begin
+	select * from tblHoaDon
+	where (sMaHD like N'%'+@data+'%' or sMaKH like N'%'+@data+'%' or sMaNV like N'%'+@data+'%' or dNgayLap like '%'+@data+'%' or dTuNgay like '%'+@data+'%' or dDenNgay like '%'+@data+'%') and tblHoaDon.bTrangThai = 1
+	order by sMaHD DESC
+end
+execute sp_timkiemhoadon 'HD00000009'

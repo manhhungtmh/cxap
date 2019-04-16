@@ -276,6 +276,7 @@ namespace BAITAPLONCHOT
 
         private void btnThem_Click(object sender, EventArgs e)
         {
+            btnLuu.Enabled = true;
             frmDangNhap.check();
             SqlCommand command = new SqlCommand();
             command.CommandType = CommandType.StoredProcedure;
@@ -323,6 +324,7 @@ namespace BAITAPLONCHOT
 
         private void lvHoaDon_SelectedIndexChanged(object sender, EventArgs e)
         {
+            btnLuu.Enabled = false;
             if (lvHoaDon.SelectedItems.Count > 0)
             {
                 ListViewItem lvi = lvHoaDon.SelectedItems[0];
@@ -350,7 +352,7 @@ namespace BAITAPLONCHOT
                 chisotieuthu = chisomoi - chisocu;
                 if (chisotieuthu < 0)
                 {
-                    MessageBox.Show("Chỉ số mới phải lớn hơn thằng ngu -.-", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    MessageBox.Show("Chỉ số mới phải lớn hơn chỉ số cũ", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 }
                 else
                 {
@@ -363,6 +365,170 @@ namespace BAITAPLONCHOT
                     ttthue = ttkhongthue + (ttkhongthue * thue);
                     txtTongTien.Text = ttthue.ToString();
                 }
+            }
+        }
+        public static DateTime GetFirstDayOfMonth(DateTime dtInput)
+        {
+            DateTime dtResult = dtInput;
+            dtResult = dtResult.AddDays((-dtResult.Day) + 1);
+            return dtResult;
+        }
+        public static DateTime GetLastDayOfMonth(DateTime dtInput)
+        {
+            DateTime dtResult = dtInput;
+            dtResult = dtResult.AddMonths(1);
+            dtResult = dtResult.AddDays(-(dtResult.Day));
+            return dtResult;
+        }
+        private void btnLuu_Click(object sender, EventArgs e)
+        {
+            
+            if (txtMaHD.Text == ""|| txtMaKH.Text==""||txtChiSoCu.Text==""||txtChiSoMoi.Text ==""||txtTongTien.Text=="")
+            {
+                MessageBox.Show("Vui lòng nhập đầy đủ thông tin của hóa đơn");
+            }
+            else
+            {
+                float thue = 0;
+                thue = float.Parse(txtThueGTGT.Text);
+                frmDangNhap.check();
+                SqlCommand command = new SqlCommand();
+                command.CommandType = CommandType.StoredProcedure;
+                command.CommandText = "sp_hoadon";
+                command.Connection = frmDangNhap.conn;
+                command.Parameters.Add("@action", "insert");
+                //command.Parameters.Add("@mahd", txtMaHD.Text);
+                command.Parameters.Add("@makh", txtMaKH.Text);
+                command.Parameters.Add("@manv", txtMaNV.Text);
+                command.Parameters.Add("@ngaylap", Convert.ToDateTime(DateTime.Now.ToString()));
+                DateTime first = GetFirstDayOfMonth(dNgayLap.Value);
+                DateTime last = GetLastDayOfMonth(dNgayLap.Value);
+                command.Parameters.Add("@tungay", first);
+                command.Parameters.Add("@denngay", last);
+                command.Parameters.Add("@chisocu", Convert.ToInt32(txtChiSoCu.Text));
+                command.Parameters.Add("@chisomoi", Convert.ToInt32(txtChiSoMoi.Text));
+                command.Parameters.Add("@thuegtgt", Math.Round(thue, 1));
+
+                int ret = command.ExecuteNonQuery();
+                if (ret > 0)
+                {
+                    MessageBox.Show("Thêm thành công");
+                }
+
+                else
+                {
+                    MessageBox.Show("Thêm thất bại");
+                }
+                frmDangNhap.conn.Close();
+                lvHoaDon.Items.Clear();
+                frmHoaDon_Load(sender, e);
+            }
+        }
+
+        private void btnXoa_Click(object sender, EventArgs e)
+        {
+            if (txtMaHD.Text == "" || txtMaKH.Text == "" || txtChiSoCu.Text == "" || txtChiSoMoi.Text == "" || txtTongTien.Text == "")
+            {
+                MessageBox.Show("Vui lòng chọn hóa đơn muốn xóa");
+            }
+            else
+            {
+                if (MessageBox.Show("Bạn chắc chắn muốn xóa khách hàng này không ?", "Thông báo", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.Yes)
+                {
+                    frmDangNhap.check();
+                    SqlCommand command = new SqlCommand();
+                    command.CommandType = CommandType.StoredProcedure;
+                    command.CommandText = "sp_hoadon";
+                    command.Connection = frmDangNhap.conn;
+                    command.Parameters.Add("@action", "lock");
+                    command.Parameters.Add("@mahd", txtMaHD.Text);
+                    int ret = command.ExecuteNonQuery();
+                    if (ret > 0)
+                    {
+                        MessageBox.Show("Xóa thành công");
+                        lvHoaDon.Items.Clear();
+                        frmHoaDon_Load(sender, e);
+                    }
+                    else
+                    {
+                        MessageBox.Show("Xóa không thành công");
+                    }
+
+                }
+            }
+
+        }
+
+        private void btnSua_Click(object sender, EventArgs e)
+        {
+            if (txtMaHD.Text == "" || txtMaKH.Text == "" || txtChiSoCu.Text == "" || txtChiSoMoi.Text == "" || txtTongTien.Text == "")
+            {
+                MessageBox.Show("Vui lòng chọn hóa đơn muốn sửa");
+            }
+            else
+            {
+                if (MessageBox.Show("Bạn chắc chắn muốn sửa khách hàng này không ?", "Thông báo", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.Yes)
+                {
+                    float thue = 0;
+                    thue = float.Parse(txtThueGTGT.Text);
+                    frmDangNhap.check();
+                    SqlCommand command = new SqlCommand();
+                    command.CommandType = CommandType.StoredProcedure;
+                    command.CommandText = "sp_hoadon";
+                    command.Connection = frmDangNhap.conn;
+                    command.Parameters.Add("@action", "update");
+                    command.Parameters.Add("@mahd", txtMaHD.Text);
+                    command.Parameters.Add("@makh", txtMaKH.Text);
+                    command.Parameters.Add("@manv", txtMaNV.Text);
+                    command.Parameters.Add("@ngaylap", Convert.ToDateTime(DateTime.Now.ToString()));
+                    DateTime first = GetFirstDayOfMonth(dNgayLap.Value);
+                    DateTime last = GetLastDayOfMonth(dNgayLap.Value);
+                    command.Parameters.Add("@tungay", first);
+                    command.Parameters.Add("@denngay", last);
+                    command.Parameters.Add("@chisocu", Convert.ToInt32(txtChiSoCu.Text));
+                    command.Parameters.Add("@chisomoi", Convert.ToInt32(txtChiSoMoi.Text));
+                    command.Parameters.Add("@thuegtgt", Math.Round(thue, 1));
+
+                    int ret = command.ExecuteNonQuery();
+                    if (ret > 0)
+                    {
+                        MessageBox.Show("Sửa thành công");
+                    }
+
+                    else
+                    {
+                        MessageBox.Show("Có lỗi khi sửa dữ liệu");
+                    }
+                    frmDangNhap.conn.Close();
+                    lvHoaDon.Items.Clear();
+                    frmHoaDon_Load(sender, e);
+                }
+            }
+        }
+
+        private void txtTimKiem_TextChanged(object sender, EventArgs e)
+        {
+            frmDangNhap.check();
+            SqlCommand command = new SqlCommand();
+            command.CommandType = CommandType.StoredProcedure;
+            command.CommandText = "sp_timkiemhoadon";
+            command.Connection = frmDangNhap.conn;
+            command.Parameters.Add("@data", txtTimKiem.Text);
+            DataTable dtb = new DataTable();
+            SqlDataAdapter da = new SqlDataAdapter(command);
+            da.Fill(dtb);
+            lvHoaDon.Items.Clear();
+            foreach (DataRow row in dtb.Rows)
+            {
+                ListViewItem item = new ListViewItem(row["sMaHD"].ToString());
+                item.SubItems.Add(row["sMaNV"].ToString());
+                item.SubItems.Add(row["sMaKH"].ToString());
+                item.SubItems.Add(row["dNgayLap"].ToString());
+                item.SubItems.Add(row["dTuNgay"].ToString());
+                item.SubItems.Add(row["dDenNgay"].ToString());
+                item.SubItems.Add(row["fChiSoCu"].ToString());
+                item.SubItems.Add(row["fChiSoMoi"].ToString());
+                lvHoaDon.Items.Add(item);
             }
         }
 
