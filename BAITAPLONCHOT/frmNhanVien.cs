@@ -7,6 +7,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Data.SqlClient;
+using System.Configuration;
 
 namespace BAITAPLONCHOT
 {
@@ -40,7 +42,42 @@ namespace BAITAPLONCHOT
 
         private void frmNhanVien_Load(object sender, EventArgs e)
         {
-
+            hienthinv();
+        }
+        private void hienthinv()
+        {
+            frmDangNhap.check();
+            SqlCommand command = new SqlCommand();
+            command.CommandType = CommandType.StoredProcedure;
+            command.CommandText = "sp_nhanvien";
+            command.Connection = frmDangNhap.conn;
+            command.Parameters.Add("@action", "selectall");
+            SqlDataReader reader = command.ExecuteReader();
+            while (reader.Read())
+            {
+                string manv = reader.GetString(0);
+                string tennv = reader.GetString(1);
+                DateTime ngaysinh = reader.GetDateTime(2);
+                string diachi = reader.GetString(3);
+                string gioitinh = reader.GetString(4);
+                string sdt = reader.GetString(5);
+                string chucvu = reader.GetString(6);
+                double hsl = reader.GetDouble(7);
+                Boolean trangthai = reader.GetBoolean(8);
+                ListViewItem lvi = new ListViewItem(manv + "");
+                lvi.SubItems.Add(tennv);
+                lvi.SubItems.Add(ngaysinh.ToString());
+                lvi.SubItems.Add(diachi);
+                lvi.SubItems.Add(gioitinh);
+                lvi.SubItems.Add(sdt);
+                lvi.SubItems.Add(chucvu);
+                lvi.SubItems.Add(hsl + "");
+                lvi.SubItems.Add(trangthai ? "Đang đi làm" : "Đã nghỉ");
+                lvNhanVien.Items.Add(lvi);
+            }
+            reader.Close();
+            cbChucVu.Items.Add("Quản lý");
+            cbChucVu.Items.Add("Nhân viên");
         }
 
         private void label8_Click(object sender, EventArgs e)
@@ -125,6 +162,222 @@ namespace BAITAPLONCHOT
             {
             }
             return true;
+        }
+
+        private void quảnLýNhânViênToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void lvNhanVien_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            btnLuu.Enabled = false;
+            if (lvNhanVien.SelectedItems.Count > 0)
+            {
+                ListViewItem lvi = lvNhanVien.SelectedItems[0];
+                string manv = lvi.SubItems[0].Text;
+                txtMaNV.Text = lvi.SubItems[0].Text;
+                txtTenNV.Text = lvi.SubItems[1].Text;
+                dNgaySinh.Text = lvi.SubItems[2].Text;
+                txtDiaChi.Text = lvi.SubItems[3].Text;
+                if (lvi.SubItems[4].Text == "Nam")
+                {
+                    rdNam.Checked = true;
+                }
+                else
+                {
+                    rdNu.Checked = true;
+                }
+                txtSDT.Text = lvi.SubItems[5].Text;
+                if (lvi.SubItems[6].Text == "Quản Lý")
+                {
+                    cbChucVu.SelectedIndex = 0;
+                }
+                else
+                {
+                    cbChucVu.SelectedIndex = 1;
+                }
+            }
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            frmDangNhap.check();
+            SqlCommand command = new SqlCommand();
+            command.CommandType = CommandType.StoredProcedure;
+            command.CommandText = "sp_mamoinhanvien";
+            command.Connection = frmDangNhap.conn;
+            SqlDataReader reader = command.ExecuteReader();
+            if (reader.Read())
+            {
+                txtMaNV.Text = reader.GetString(0);
+            }
+            reader.Close();
+            txtDiaChi.Clear();
+            txtTenNV.Clear();
+            txtSDT.Clear();
+            dNgaySinh.Clear();
+            cbChucVu.SelectedIndex = 1;
+        }
+
+        private void btnSua_Click(object sender, EventArgs e)
+        {
+            if (txtDiaChi.Text == "" || txtMaNV.Text == "" || txtSDT.Text == "" || txtSDT.Text == "")
+            {
+                MessageBox.Show("Vui lòng chọn nhân viên muốn sửa");
+            }
+            else
+            {
+                frmDangNhap.check();
+                SqlCommand command = new SqlCommand();
+                command.CommandType = CommandType.StoredProcedure;
+                command.CommandText = "sp_nhanvien";
+                command.Connection = frmDangNhap.conn;
+                command.Parameters.Add("@action", "update");
+                command.Parameters.Add("@manv", txtMaNV.Text);
+                command.Parameters.Add("@tennv", txtTenNV.Text);
+                command.Parameters.Add("@ngaysinh", dNgaySinh.Text);
+                command.Parameters.Add("@diachi", txtDiaChi.Text);
+                if (rdNam.Checked)
+                {
+                    command.Parameters.Add("@gioitinh", "Nam");
+                }
+                else
+                {
+                    command.Parameters.Add("@gioitinh", "Nữ");
+                }
+                command.Parameters.Add("@sdt", txtSDT.Text);
+                if (cbChucVu.SelectedIndex == 0)
+                {
+                    command.Parameters.Add("@chucvu", "Quản Lý");
+                    command.Parameters.Add("@hsl", Math.Round(float.Parse("1,2"), 1));
+                }
+                else
+                {
+                    command.Parameters.Add("@chucvu", "Nhân viên");
+                    command.Parameters.Add("@hsl", Math.Round(float.Parse("0,9"), 1));
+                }
+                int ret = command.ExecuteNonQuery();
+                if (ret > 0)
+                {
+                    MessageBox.Show("Sửa thông tin thành công");
+                }
+
+                else
+                {
+                    MessageBox.Show("Sửa thông tin không thành công");
+                }
+                frmDangNhap.conn.Close();
+                lvNhanVien.Items.Clear();
+                frmNhanVien_Load(sender, e);
+            }
+        }
+
+        private void btnXoa_Click(object sender, EventArgs e)
+        {
+            if (txtDiaChi.Text == "" || txtMaNV.Text == "" || txtSDT.Text == "" || txtSDT.Text == "")
+            {
+                MessageBox.Show("Vui lòng chọn nhân viên muốn xóa");
+            }
+            else
+            {
+                if (MessageBox.Show("Bạn chắc chắn muốn xóa nhân viên này không ?", "Thông báo", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.Yes)
+                {
+                    frmDangNhap.check();
+                    SqlCommand command = new SqlCommand();
+                    command.CommandType = CommandType.StoredProcedure;
+                    command.CommandText = "sp_nhanvien";
+                    command.Connection = frmDangNhap.conn;
+                    command.Parameters.Add("@action", "lock");
+                    command.Parameters.Add("@manv", txtMaNV.Text);
+
+
+                    int ret = command.ExecuteNonQuery();
+                    if (ret > 0)
+                    {
+                        MessageBox.Show("Xóa thành công");
+                        lvNhanVien.Items.Clear();
+                        frmNhanVien_Load(sender, e);
+                    }
+                    else
+                    {
+                        MessageBox.Show("Xóa không thành công");
+                    }
+
+                }
+            }
+        }
+
+        private void btnLuu_Click(object sender, EventArgs e)
+        {
+            frmDangNhap.check();
+            SqlCommand command = new SqlCommand();
+            command.CommandType = CommandType.StoredProcedure;
+            command.CommandText = "sp_nhanvien";
+            command.Connection = frmDangNhap.conn;
+            command.Parameters.Add("@action", "insert");
+            command.Parameters.Add("@tennv", txtTenNV.Text);
+            command.Parameters.Add("@ngaysinh", dNgaySinh.Text);
+            command.Parameters.Add("@diachi", txtDiaChi.Text);
+            if (rdNam.Checked)
+            {
+                command.Parameters.Add("@gioitinh", "Nam");
+            }
+            else
+            {
+                command.Parameters.Add("@gioitinh", "Nữ");
+            }
+            command.Parameters.Add("@sdt", txtSDT.Text);
+            if (cbChucVu.SelectedIndex == 0)
+            {
+                command.Parameters.Add("@chucvu", "Quản Lý");
+                command.Parameters.Add("@hsl", Math.Round(float.Parse("1,2"), 1));
+            }
+            else
+            {
+                command.Parameters.Add("@chucvu", "Nhân viên");
+                command.Parameters.Add("@hsl", Math.Round(float.Parse("0,9"),1));
+            }
+            int ret = command.ExecuteNonQuery();
+            if (ret > 0)
+            {
+                MessageBox.Show("Thêm thành công");
+            }
+
+            else
+            {
+                MessageBox.Show("Thêm thất bại");
+            }
+            frmDangNhap.conn.Close();
+            lvNhanVien.Items.Clear();
+            frmNhanVien_Load(sender, e);
+        }
+
+        private void textBox5_TextChanged(object sender, EventArgs e)
+        {
+            frmDangNhap.check();
+            SqlCommand command = new SqlCommand();
+            command.CommandType = CommandType.StoredProcedure;
+            command.CommandText = "sp_timkiemnhanvien";
+            command.Connection = frmDangNhap.conn;
+            command.Parameters.Add("@data", txtTimKiem.Text);
+            DataTable dtb = new DataTable();
+            SqlDataAdapter da = new SqlDataAdapter(command);
+            da.Fill(dtb);
+            lvNhanVien.Items.Clear();
+            foreach (DataRow row in dtb.Rows)
+            {
+                ListViewItem item = new ListViewItem(row["sMaNV"].ToString());
+                item.SubItems.Add(row["sTenNV"].ToString());
+                item.SubItems.Add(row["dNgaySinh"].ToString());
+                item.SubItems.Add(row["sDiaChi"].ToString());
+                item.SubItems.Add(row["sGioiTinh"].ToString());
+                item.SubItems.Add(row["sSDT"].ToString());
+                item.SubItems.Add(row["sChucVu"].ToString());
+                item.SubItems.Add(row["fHSL"].ToString());
+                item.SubItems.Add((bool)(row["bTrangThai"]) == true ? "Đang đi làm" : "Đã nghỉ");
+                lvNhanVien.Items.Add(item);
+            }
         }
     }
 }

@@ -31,7 +31,7 @@ namespace BAITAPLONCHOT
                 chisotieuthu = chisomoi - chisocu;
                 if(chisotieuthu<0)
                 {
-                    MessageBox.Show("Chỉ số mới phải lớn hơn thằng ngu -.-", "Thông báo",MessageBoxButtons.OK,MessageBoxIcon.Warning);
+                    MessageBox.Show("Chỉ số mới phải lớn hơn chỉ số cũ", "Thông báo",MessageBoxButtons.OK,MessageBoxIcon.Warning);
                 }
                 else
                 {
@@ -107,7 +107,10 @@ namespace BAITAPLONCHOT
                 thue = reader.GetFloat(0);
                 reader.Close();
             }
-
+            else
+            {
+                reader.Close();
+            }
             return thue;
         }
 
@@ -149,6 +152,7 @@ namespace BAITAPLONCHOT
                 item.SubItems.Add((bool)(row["bTrangThai"]) == true ? "Đang sử dụng" : "Không sử dụng");
                 lvHoaDon.Items.Add(item);
             }
+            frmDangNhap.conn.Close();
 
         }
         private void label8_Click(object sender, EventArgs e)
@@ -212,6 +216,10 @@ namespace BAITAPLONCHOT
                 {
                     MessageBox.Show("Bạn không có quyền truy cập vào chức năng này !");
                 }
+                reader.Close();
+            }
+            else
+            {
                 reader.Close();
             }
         }
@@ -286,6 +294,10 @@ namespace BAITAPLONCHOT
             if (reader.Read())
             {
                 txtMaHD.Text = reader.GetString(0);
+                reader.Close();
+            }
+            else
+            {
                 reader.Close();
             }
             string mahd = frmInformation.get_manv();

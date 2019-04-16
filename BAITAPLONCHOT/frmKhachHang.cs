@@ -242,6 +242,7 @@ namespace BAITAPLONCHOT
             if (reader.Read())
             {
                 txtMaKH.Text = reader.GetString(0);
+                reader.Close();
             }
             reader.Close();
             txtTenKH.Clear();

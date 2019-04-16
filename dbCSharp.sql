@@ -81,8 +81,11 @@ create table tblss
 (
 	id int primary key not null,
 	ma char(10),
+	matkhau varchar(100),
 	quyen bit
 )
+alter table tblss
+add matkhau nvarchar(100)
 --select permission from tblss
 create proc sp_getquyen
 as
@@ -100,12 +103,13 @@ end
 --insert to tblss
 alter proc sp_session
 @ma char(10),
+@matkhau varchar(100),
 @quyen int
 as
 begin
 	delete from tblss where 1=1
 	insert into tblss 
-	values(1,@ma,@quyen)
+	values(1,@ma,@matkhau,@quyen)
 end
 exec sp_session @ma = NV00000000,@quyen =1
 --select to tblss
@@ -208,6 +212,8 @@ begin
 	if(@chucvu like N'Quản lý' or @chucvu like N'Quản Lý' or @chucvu like N'quản lý' or @chucvu like N'quản Lý' )
 		insert into tblTaiKhoan values (@manv,'123456',1)
 end
+--tự động thêm hệ số lương tương đương với chức vụ
+
 --Mấy cái  trigger tự động tính. 
 --VD: tính tổng tiền hóa đơn có thể xử lý bên C#
 -- tự động tính chỉ số loại 1, 2 , 3 ,4 có thể xử lý bên C# = TextChanged
@@ -215,6 +221,12 @@ end
 
 
 -------------------------------------------STORED PROCEDURES LIÊN QUAN ĐẾN TBL_TAIKHOAN
+create proc sp_taikhoan
+@matk char(10)
+as
+begin
+	
+end
 --ProC check đăng nhập
 create proc sp_checkdangnhap
 @tentaikhoan char(10),
@@ -234,6 +246,9 @@ as
 begin
 	select * from tblTaiKhoan where sMaTK = @tentaikhoan
 end
+--
+select* from tblss
+
 -------------------------------------------STORED PROCEDURES LIÊN QUAN ĐẾN TBL_NHANVIEN
 -- procduce trên bảng tblNhanvien
 alter proc sp_nhanvien
@@ -265,11 +280,20 @@ begin
 		end
 	if(@action = N'lock')
 		begin
-			update tblNhanVien set bTrangThai = 0 where sMaNV = @manv
+			update tblNhanVien 
+			set bTrangThai = 0 
+			where sMaNV = @manv
 		end
 	if(@action = N'update')
 		begin
-			update tblNhanVien set sTenNV = @tennv, dNgaySinh = @ngaysinh , sDiaChi = @diachi , sGioiTinh = @gioitinh, sSDT = @sdt, sChucVu = @chucvu, fHSL = @hsl
+			update tblNhanVien 
+			set sTenNV = @tennv, dNgaySinh = @ngaysinh , sDiaChi = @diachi , sGioiTinh = @gioitinh, sSDT = @sdt, sChucVu = @chucvu, fHSL = @hsl
+			where sMaNV = @manv
+		end
+	if(@action = N'change')
+		begin
+			update tblNhanVien
+			set sTenNV = @tennv, dNgaySinh = @ngaysinh , sDiaChi = @diachi , sGioiTinh = @gioitinh, sSDT = @sdt
 			where sMaNV = @manv
 		end
 end
@@ -351,12 +375,12 @@ exec sp_mamoinhanvien
 ---
 exec sp_khachhang @tenkh = N'Ngọc', @ngaysinh = '01/01/1999', @diachi = N'Dak lak',@gioitinh = 'Nam', @sdt = '0123456789' , @macongto = 'CT001', @action = 'insert', @trangthai = 1
 --Tìm kiếm nhân viên theo tên
-create proc timkiemnhanvien
-@tennv nvarchar(255)
+create proc sp_timkiemnhanvien
+@data nvarchar(255)
 as
 begin
 	select * from tblNhanVien
-	where sTenNV like '%'+@tennv+'%'
+	where (sTenNV like '%'+@data+'%') and bTrangThai = 1
 end
 exec timkiemnhanvien @tennv = N'Hùng'
 --Tìm kiếm Khách hàng theo tên.
@@ -365,7 +389,7 @@ alter proc timkiemkhachhang
 as
 begin
 	select * from tblKhachHang
-	where sTenKH like N'%'+@data+'%' or sMaKH like N'%'+@data+'%' or sDiaChi like N'%'+@data+'%' or sSDT like N'%'+@data+'%' or sMaCongTo like N'%'+@data+'%'
+	where (sTenKH like N'%'+@data+'%' or sMaKH like N'%'+@data+'%' or sDiaChi like N'%'+@data+'%' or sSDT like N'%'+@data+'%' or sMaCongTo like N'%'+@data+'%') and bTrangThai = 1
 end
 
 exec timkiemkhachhang @data = N'Ngọc'

@@ -60,6 +60,7 @@ namespace BAITAPLONCHOT
                 {
                     //lấy tên đăng nhập và quyên của họ lưu vào tblss
                     string key = txtTenDangNhap.Text;
+                    string pass = txtMatKhau.Text;
                     int a = 2;
                     //Nếu quyền == 1
                     if (sdr.GetBoolean(2))
@@ -73,7 +74,7 @@ namespace BAITAPLONCHOT
                     }
                     this.Hide();
                     sdr.Close();
-                    luu_ss(key, a);
+                    luu_ss(key, pass, a);
                     
                 }
                 else
@@ -88,7 +89,7 @@ namespace BAITAPLONCHOT
                 MessageBox.Show(e.ToString());
             }
         }
-        private void luu_ss(string ma, int quyen)
+        private void luu_ss(string ma,string matkhau, int quyen)
         {
             check();
             SqlCommand command = new SqlCommand();
@@ -96,6 +97,7 @@ namespace BAITAPLONCHOT
             command.CommandText = "sp_session";
             command.Connection = conn;
             command.Parameters.Add("@ma", ma);
+            command.Parameters.Add("@matkhau", matkhau);
             command.Parameters.Add("@quyen", quyen);
             int ret = command.ExecuteNonQuery();
             if (ret > 0)
@@ -122,10 +124,7 @@ namespace BAITAPLONCHOT
 
         private void btnHuy_Click(object sender, EventArgs e)
         {
-            if (MessageBox.Show("Bạn chắc chắn muốn thoát chương trình không ?", "Thông báo", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.Yes)
-            {
-                Application.Exit();
-            }
+                this.Close();
         }
 
         private void txtTenDangNhap_KeyDown(object sender, KeyEventArgs e)

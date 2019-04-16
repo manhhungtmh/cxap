@@ -47,6 +47,7 @@ namespace BAITAPLONCHOT
                 //Nếu quyền == 1 thì cho vào xem
                 if (reader.GetBoolean(2))
                 {
+                    reader.Close();
                     frmNhanVien frm = new frmNhanVien();
                     frm.Show();
                     this.Close();
@@ -56,8 +57,9 @@ namespace BAITAPLONCHOT
                 {
                     MessageBox.Show("Bạn không có quyền truy cập vào chức năng này !");
                 }
-                reader.Close();
+                
             }
+            reader.Close();
         }
 
         private void frmGiaoDienHeThong_Load(object sender, EventArgs e)
@@ -67,7 +69,12 @@ namespace BAITAPLONCHOT
 
         private void pictureBox5_Click(object sender, EventArgs e)
         {
-            
+            if (MessageBox.Show("Bạn chắc chắn muốn đăng xuất hỏi hệ không ?", "Thông báo", MessageBoxButtons.YesNo) == DialogResult.Yes)
+            {
+                frmDangNhap frm = new frmDangNhap();
+                frm.Show();
+                this.Close();
+            }
         }
 
         private void pictureBox1_Click(object sender, EventArgs e)
@@ -134,6 +141,7 @@ namespace BAITAPLONCHOT
                 //Nếu quyền == 1 thì cho vào xem
                 if (reader.GetBoolean(2))
                 {
+                    reader.Close();
                     frmNhanVien frm = new frmNhanVien();
                     frm.Show();
                     this.Close();
@@ -142,6 +150,7 @@ namespace BAITAPLONCHOT
                 else
                 {
                     MessageBox.Show("Bạn không có quyền truy cập vào chức năng này !");
+                    reader.Close();
                 }
                 reader.Close();
             }
