@@ -13,3 +13,4 @@ C:\Users\hungh\Desktop\fit\cxap\BAITAPLONCHOT\obj\Release\BAITAPLONCHOT.Properti
 C:\Users\hungh\Desktop\fit\cxap\BAITAPLONCHOT\obj\Release\BAITAPLONCHOT.csproj.GenerateResource.Cache
 C:\Users\hungh\Desktop\fit\cxap\BAITAPLONCHOT\obj\Release\BAITAPLONCHOT.exe
 C:\Users\hungh\Desktop\fit\cxap\BAITAPLONCHOT\obj\Release\BAITAPLONCHOT.pdb
+C:\Users\hungh\Desktop\fit\cxap\BAITAPLONCHOT\obj\Release\BAITAPLONCHOT.InKH.resources

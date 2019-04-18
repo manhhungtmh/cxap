@@ -59,6 +59,8 @@ alter table tblHoaDon
 alter column dDenNgay date
 alter table tblHoaDon
 add bTrangThai bit default 1
+alter table tblHoaDon
+add fTongTien float null
 --Khóa ngoại sMaKH
 alter table tblHoaDon
 add constraint FK_MaKH foreign key (sMaKH)
@@ -248,6 +250,16 @@ begin
 end
 --
 select* from tblss
+--Proc đổi mật khẩu
+create proc sp_doimatkhau
+@matkhaumoi char(12),
+@matk char(10)
+as
+begin
+	update tblTaiKhoan
+	set sMatKhau = @matkhaumoi
+	where sMaTK = @matk
+end
 
 -------------------------------------------STORED PROCEDURES LIÊN QUAN ĐẾN TBL_NHANVIEN
 -- procduce trên bảng tblNhanvien
@@ -448,17 +460,22 @@ alter proc sp_hoadon
 @chisocu float = null,
 @chisomoi float = null,
 @thuegtgt float = null,
+@tongtien float = null,
 @action varchar(10) = null
 as
 begin
 	if(@action = N'insert')
 		begin
 			insert into tblHoaDon
-			values(dbo.fcgetMaHD(),@makh,@manv,@ngaylap,@tungay,@denngay,@chisocu,@chisomoi,@thuegtgt,1)
+			values(dbo.fcgetMaHD(),@makh,@manv,@ngaylap,@tungay,@denngay,@chisocu,@chisomoi,@thuegtgt,@tongtien,1)
 		end
 	if(@action = 'selectall')
 		begin
-			select * from tblHoaDon where bTrangThai = 1
+			select sMaHD, tblNhanVien.sTenNV, tblKhachHang.sTenKH, dNgayLap, dTuNgay, dDenNgay, fChiSoCu, fChiSoMoi, fThueGTGT, tblHoaDon.bTrangThai, tblHoaDon.sMaKH, tblHoaDon.fTongTien
+			from tblHoaDon, tblKhachHang, tblNhanVien
+			where tblHoaDon.bTrangThai = 1 and 
+			tblHoaDon.sMaKH = tblKhachHang.sMaKH and 
+			tblHoaDon.sMaNV = tblNhanVien.sMaNV
 			order by sMaHD DESC
 		end
 	if(@action = 'selectone')
@@ -468,7 +485,7 @@ begin
 	if(@action = 'update')
 		begin
 			update tblHoaDon
-			set sMaNV = @manv, dNgayLap = @ngaylap, dTuNgay = @tungay, dDenNgay = @denngay, fChiSoCu = @chisocu, fChiSoMoi = @chisomoi, fThueGTGT = @thuegtgt
+			set sMaNV = @manv, dNgayLap = @ngaylap, dTuNgay = @tungay, dDenNgay = @denngay, fChiSoCu = @chisocu, fChiSoMoi = @chisomoi, fThueGTGT = @thuegtgt, fTongTien = @tongtien
 			where sMaHD = @mahd	
 		end
 	if(@action = 'lock')
@@ -482,6 +499,14 @@ begin
 			update tblHoaDon
 			set bTrangThai = 1
 			where sMaHD = @mahd
+		end
+	if(@action = 'thongke')
+		begin
+			select sMaHD, tblNhanVien.sTenNV, tblKhachHang.sTenKH, dNgayLap, dTuNgay, dDenNgay, fChiSoCu, fChiSoMoi, fThueGTGT, tblHoaDon.bTrangThai, tblHoaDon.sMaKH, tblHoaDon.fTongTien
+			from tblHoaDon, tblKhachHang, tblNhanVien
+			where tblHoaDon.sMaKH = tblKhachHang.sMaKH and 
+			tblHoaDon.sMaNV = tblNhanVien.sMaNV
+			order by sMaHD DESC
 		end
 end
 --lấy mã tiếp theo trong bảng tblHoaDon
@@ -507,7 +532,65 @@ alter proc sp_timkiemhoadon
 as
 begin
 	select * from tblHoaDon
-	where (sMaHD like N'%'+@data+'%' or sMaKH like N'%'+@data+'%' or sMaNV like N'%'+@data+'%' or dNgayLap like '%'+@data+'%' or dTuNgay like '%'+@data+'%' or dDenNgay like '%'+@data+'%') and tblHoaDon.bTrangThai = 1
+	where (sMaHD like	N'%'+@data+'%' 
+	or	sMaNV like		N'%'+@data+'%' 
+	or sMaKH like		N'%'+@data+'%' 
+	or dNgayLap like	'%'+@data+'%' 
+	or dTuNgay like		'%'+@data+'%' 
+	or dDenNgay like	'%'+@data+'%') 
+	and tblHoaDon.bTrangThai = 1
 	order by sMaHD DESC
 end
 execute sp_timkiemhoadon 'HD00000009'
+-----------------------------------------------------------PROC THỐNG KÊ
+alter proc thongkenhanvien
+as
+begin
+	select tblNhanVien.sMaNV, tblNhanVien.sTenNV, tblNhanVien.dNgaySinh, sDiaChi, sGioiTinh, sSDT, sChucVu, COUNT(tblHoaDon.sMaNV) as SoLuongHoaDon, tblNhanVien.bTrangThai
+	from tblNhanVien
+	left join tblHoaDon on tblNhanVien.sMaNV = tblHoaDon.sMaNV
+	group by tblNhanVien.sMaNV, tblNhanVien.sTenNV, tblNhanVien.dNgaySinh, tblHoaDon.sMaNV, sDiaChi, sGioiTinh, sSDT, sChucVu, tblNhanVien.bTrangThai
+	order by SoLuongHoaDon DESC
+end
+exec thongkenhanvien
+--thống kê nhân viên
+select *from tblNhanVien
+alter proc sp_locnhanvien
+@action nvarchar(255)
+as
+	declare @query nvarchar(1000)
+begin
+	set @query = N'select * from tblNhanVien where ' + @action
+	execute(@query)
+end
+
+--@query = "sGioiTinh = 'Nam'"
+-- query ben c# sẽ tương tự như trên
+exec sp_locnhanvien @action = 'sGioiTinh = N''Nam'''
+exec sp_locnhanvien @action = '1=1'
+---TÌm kiếm thống kê hóa đơn
+alter proc sp_timkiemthongkehoadon
+@data varchar(255)
+as
+begin
+	select sMaHD, sTenNV, sTenKH, dNgayLap, dTuNgay, dDenNgay, fChiSoCu, fChiSoMoi , fTongTien, fThueGTGT
+	from tblHoaDon,tblNhanVien,tblKhachHang
+	where (sMaHD like	N'%'+@data+'%' 
+	or	sTenNV like		N'%'+@data+'%' 
+	or sTenKH like		N'%'+@data+'%' 
+	or dNgayLap like	'%'+@data+'%' 
+	or dTuNgay like		'%'+@data+'%' 
+	or dDenNgay like	'%'+@data+'%') 
+	and tblKhachHang.sMaKH = tblHoaDon.sMaKH and tblHoaDon.sMaNV = tblNhanVien.sMaNV
+	order by sMaHD DESC
+end
+--thống kê hóa đơn
+select *from tblNhanVien
+alter proc sp_locnhanvien
+@action nvarchar(255)
+as
+	declare @query nvarchar(1000)
+begin
+	set @query = N'select * from tblNhanVien where ' + @action
+	execute(@query)
+end

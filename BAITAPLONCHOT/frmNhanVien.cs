@@ -166,7 +166,31 @@ namespace BAITAPLONCHOT
 
         private void quảnLýNhânViênToolStripMenuItem_Click(object sender, EventArgs e)
         {
-
+            frmDangNhap.check();
+            SqlCommand command = new SqlCommand();
+            command.CommandType = CommandType.StoredProcedure;
+            command.CommandText = "sp_getss";
+            command.Connection = frmDangNhap.conn;
+            SqlDataReader reader = command.ExecuteReader();
+            if (reader.Read())
+            {
+                //Nếu quyền == 1 thì cho vào xem
+                if (reader.GetBoolean(2))
+                {
+                    reader.Close();
+                    frmNhanVien frm = new frmNhanVien();
+                    if (OpenAForm(frm))
+                    {
+                        frm.Show();
+                    }
+                }
+                //Nếu quyền == 0 thì thống báo k có quyền
+                else
+                {
+                    MessageBox.Show("Bạn không có quyền truy cập vào chức năng này !");
+                }
+                reader.Close();
+            }
         }
 
         private void lvNhanVien_SelectedIndexChanged(object sender, EventArgs e)

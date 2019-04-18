@@ -71,10 +71,8 @@ namespace BAITAPLONCHOT
                 manv = reader.GetString(1);
                 reader.Close();
             }
-
             return manv;
         }
-
 
         private void label11_Click(object sender, EventArgs e)
         {
@@ -121,6 +119,7 @@ namespace BAITAPLONCHOT
                 //Nếu quyền == 1 thì cho vào xem
                 if (reader.GetBoolean(2))
                 {
+                    reader.Close();
                     frmNhanVien frm = new frmNhanVien();
                     if (OpenAForm(frm))
                     {
@@ -208,6 +207,12 @@ namespace BAITAPLONCHOT
                 }
                 command.Parameters.Add("@sdt", txtSDT.Text);
                 command.Parameters.Add("@chucvu", txtChucVu.Text);
+                if(txtChucVu.Text == "Quản lý" || txtChucVu.Text == "Quản Lý" ||txtChucVu.Text == "Quản lý" ||txtChucVu.Text == "quản lý"){
+                    command.Parameters.Add("@hsl", Math.Round(float.Parse("1,2"), 1));
+                }
+                else{
+                    command.Parameters.Add("@hsl", Math.Round(float.Parse("0,9"), 1));
+                }
                 int ret = command.ExecuteNonQuery();
                 if (ret > 0)
                 {
@@ -226,6 +231,7 @@ namespace BAITAPLONCHOT
         private void btnDoiMatKhau_Click(object sender, EventArgs e)
         {
             string matk = "";
+            string matkhau = "";
             frmDangNhap.check();
             SqlCommand command = new SqlCommand();
             command.CommandType = CommandType.StoredProcedure;
@@ -234,10 +240,50 @@ namespace BAITAPLONCHOT
             SqlDataReader reader = command.ExecuteReader();
             if (reader.Read())
             {
-                 matk = reader.GetString(3);
+                matk = reader.GetString(1);
+                matkhau = reader.GetString(3);
             }
             reader.Close();
-            MessageBox.Show(matk);
+            //MessageBox.Show(txtMatKhauCu.Text + " " + matkhau.ToString());
+            if (String.Compare(matkhau.ToString(), txtMatKhauCu.Text) == 0)
+            {
+                if (String.Compare(txtMatKhauMoi.Text,txtXacNhanMatKhau.Text) == 0)
+                {
+                    doimatkhau(txtMatKhauMoi.Text, matk);
+                }
+                else
+                {
+                    MessageBox.Show("Vùi lòng điền mật khẩu mới và mật khẩu mới mới giống nhau");
+                }
+            }
+            else
+            {
+                MessageBox.Show("Tài khoản hoặc mật khẩu không chính xác");
+            }
+        }
+        private void doimatkhau(string matkhaumoi, string matk)
+        {
+            frmDangNhap.check();
+            SqlCommand command = new SqlCommand();
+            command.CommandType = CommandType.StoredProcedure;
+            command.CommandText = "sp_doimatkhau";
+            command.Connection = frmDangNhap.conn;
+            command.Parameters.Add("@matkhaumoi", matkhaumoi);
+            command.Parameters.Add("@matk", matk);
+            int ret = command.ExecuteNonQuery();
+            if (ret > 0)
+            {
+                MessageBox.Show("Đổi mật khẩu thành công");
+            }
+            else
+            {
+                MessageBox.Show("Đổi mật khẩu không thành công");
+            }
+        }
+
+        private void groupBox3_Enter(object sender, EventArgs e)
+        {
+
         }
     }
 }

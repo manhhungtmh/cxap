@@ -102,6 +102,7 @@ namespace BAITAPLONCHOT
                 //Nếu quyền == 1 thì cho vào xem
                 if (reader.GetBoolean(2))
                 {
+                    reader.Close();
                     frmNhanVien frm = new frmNhanVien();
                     if (OpenAForm(frm))
                     {
@@ -208,6 +209,7 @@ namespace BAITAPLONCHOT
 
         private void lvKhachHang_SelectedIndexChanged(object sender, EventArgs e)
         {
+            btnLuu.Enabled = false;
             if (lvKhachHang.SelectedItems.Count > 0)
             {
                 ListViewItem lvi = lvKhachHang.SelectedItems[0];
@@ -249,13 +251,12 @@ namespace BAITAPLONCHOT
             txtDiaChi.Clear();
             mtbNgaySinh.Clear();
             txtSDT.Clear();
-            btnSua.Enabled = false;
-            btnXoa.Enabled = false;  
+            btnLuu.Enabled = true; 
         }
 
         private void btnSua_Click(object sender, EventArgs e)
         {
-            if (txtMaKH.Text == "")
+            if (txtMaKH.Text == "" || txtTenKH.Text == "" || txtDiaChi.Text == "" || txtSDT.Text=="")
             {
                 MessageBox.Show("Vui lòng chọn người muốn sửa");
             }
@@ -302,29 +303,34 @@ namespace BAITAPLONCHOT
 
         private void btnXoa_Click(object sender, EventArgs e)
         {
-            if (MessageBox.Show("Bạn chắc chắn muốn xóa khách hàng này không ?", "Thông báo", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.Yes)
+            if (txtMaKH.Text == "" || txtTenKH.Text == "" || txtDiaChi.Text == "" || txtSDT.Text == "")
             {
-                frmDangNhap.check();
-                SqlCommand command = new SqlCommand();
-                command.CommandType = CommandType.StoredProcedure;
-                command.CommandText = "sp_khachhang";
-                command.Connection = frmDangNhap.conn;
-                command.Parameters.Add("@action", "lock");
-                command.Parameters.Add("@makh", txtMaKH.Text);
-
-
-                int ret = command.ExecuteNonQuery();
-                if (ret > 0)
+                MessageBox.Show("Vui lòng chọn người muốn sửa");
+            }
+            else {
+                if (MessageBox.Show("Bạn chắc chắn muốn xóa khách hàng này không ?", "Thông báo", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.Yes)
                 {
-                    MessageBox.Show("Xóa thành công");
-                    lvKhachHang.Items.Clear();
-                    frmKhachHang_Load(sender, e);
-                }
-                else
-                {
-                    MessageBox.Show("Xóa không thành công");
-                }
+                    frmDangNhap.check();
+                    SqlCommand command = new SqlCommand();
+                    command.CommandType = CommandType.StoredProcedure;
+                    command.CommandText = "sp_khachhang";
+                    command.Connection = frmDangNhap.conn;
+                    command.Parameters.Add("@action", "lock");
+                    command.Parameters.Add("@makh", txtMaKH.Text);
 
+
+                    int ret = command.ExecuteNonQuery();
+                    if (ret > 0)
+                    {
+                        MessageBox.Show("Xóa thành công");
+                        lvKhachHang.Items.Clear();
+                        frmKhachHang_Load(sender, e);
+                    }
+                    else
+                    {
+                        MessageBox.Show("Xóa không thành công");
+                    }
+                }
             }
         }
 
@@ -352,6 +358,12 @@ namespace BAITAPLONCHOT
                 item.SubItems.Add((bool)(row["bTrangThai"]) == true ? "Đang sử dụng" : "Không sử dụng");
                 lvKhachHang.Items.Add(item);
             }
+        }
+
+        private void button5_Click(object sender, EventArgs e)
+        {
+            InKH iKH = new InKH(txtMaKH.Text);
+            iKH.Show();
         }
     }
 }

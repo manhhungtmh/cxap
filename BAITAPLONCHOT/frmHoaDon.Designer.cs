@@ -42,6 +42,7 @@
             this.columnHeader6 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnHeader7 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnHeader8 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.columnHeader9 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.panel2 = new System.Windows.Forms.Panel();
             this.button5 = new System.Windows.Forms.Button();
             this.btnThem = new System.Windows.Forms.Button();
@@ -85,7 +86,7 @@
             this.label1.AutoSize = true;
             this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label1.ForeColor = System.Drawing.SystemColors.Desktop;
-            this.label1.Location = new System.Drawing.Point(305, 56);
+            this.label1.Location = new System.Drawing.Point(333, 56);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(212, 25);
             this.label1.TabIndex = 1;
@@ -130,7 +131,8 @@
             this.columnHeader5,
             this.columnHeader6,
             this.columnHeader7,
-            this.columnHeader8});
+            this.columnHeader8,
+            this.columnHeader9});
             this.lvHoaDon.FullRowSelect = true;
             this.lvHoaDon.GridLines = true;
             this.lvHoaDon.HideSelection = false;
@@ -149,7 +151,7 @@
             // 
             // columnHeader2
             // 
-            this.columnHeader2.Text = "Mã NV";
+            this.columnHeader2.Text = "Tên NV";
             this.columnHeader2.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.columnHeader2.Width = 95;
             // 
@@ -188,6 +190,11 @@
             this.columnHeader8.Text = "Chỉ số mới";
             this.columnHeader8.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.columnHeader8.Width = 95;
+            // 
+            // columnHeader9
+            // 
+            this.columnHeader9.Text = "Tổng tiền";
+            this.columnHeader9.Width = 100;
             // 
             // panel2
             // 
@@ -364,9 +371,9 @@
             this.label4.AutoSize = true;
             this.label4.Location = new System.Drawing.Point(6, 70);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(126, 18);
+            this.label4.Size = new System.Drawing.Size(130, 18);
             this.label4.TabIndex = 2;
-            this.label4.Text = "Mã nhân viên lập :";
+            this.label4.Text = "Tên nhân viên lập :";
             // 
             // txtMaNV
             // 
@@ -549,7 +556,7 @@
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "frmHoaDon";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "d";
+            this.Text = "Quản lý hóa đơn";
             this.MaximumSizeChanged += new System.EventHandler(this.frmHoaDon_MaximumSizeChanged);
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.frmHoaDon_FormClosing);
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.frmHoaDon_FormClosed);
@@ -612,5 +619,6 @@
         private System.Windows.Forms.TextBox txtChiSoCu;
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.Button button5;
+        private System.Windows.Forms.ColumnHeader columnHeader9;
     }
 }

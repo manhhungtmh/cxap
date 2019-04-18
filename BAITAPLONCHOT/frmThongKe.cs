@@ -44,7 +44,97 @@ namespace BAITAPLONCHOT
 
         private void frmThongKe_Load(object sender, EventArgs e)
         {
+            hienthithongkenhanvien();
+            thongkehoadon();
+        }
+        private void hienthithongkenhanvien()
+        {
+            int soluongnhanvien = 0;
+            int nhanviendanglam = 0;
+            
+            frmDangNhap.check();
+            SqlCommand command = new SqlCommand();
+            command.CommandType = CommandType.StoredProcedure;
+            command.CommandText = "thongkenhanvien";
+            command.Connection = frmDangNhap.conn;
+            DataTable dtb = new DataTable();
+            SqlDataAdapter da = new SqlDataAdapter(command);
+            da.Fill(dtb);
+            lvThongKeNhanVien.Items.Clear();
+            foreach (DataRow row in dtb.Rows)
+            {
+                
+                soluongnhanvien = soluongnhanvien + 1;
+                ListViewItem item = new ListViewItem(row["sMaNV"].ToString());
+                item.SubItems.Add(row["sTenNV"].ToString());
+                item.SubItems.Add(row["dNgaySinh"].ToString());
+                item.SubItems.Add(row["sDiaChi"].ToString());
+                item.SubItems.Add(row["sGioiTinh"].ToString());
+                item.SubItems.Add(row["sSDT"].ToString());
+                item.SubItems.Add(row["sChucVu"].ToString());
+                item.SubItems.Add(row["SoLuongHoaDon"].ToString());
+                item.SubItems.Add((bool)(row["bTrangThai"]) == true ? "Đang đi làm" : "Đã nghỉ");
+                if((bool)row["bTrangThai"] == true){
+                    nhanviendanglam = nhanviendanglam + 1;
+                }
+                lvThongKeNhanVien.Items.Add(item);
+            }
+            SoLuongNhanVien.Text = soluongnhanvien.ToString();
+            DangDiLam.Text = nhanviendanglam.ToString();
+        }
+        private void thongkehoadon()
+        {
+            rdTatCaThanhTien.Checked = true;
+            rdTatCaThoiGian.Checked = true;
+            dTuNgay.Enabled = false;
+            dDenNgay.Enabled = false;
+            txtTuTien.Enabled = false;
+            txtDenTien.Enabled = false;
+            int chisotieuthu = 0;
+            int soluonghoadon = 0;
+            int tongsoluongtieuthu = 0;
+            int tongnuochoadon = 0;
+            float tonggiatrihoadon = 0;
+            float trungbinhgiatrihoadon = 0;
+            frmDangNhap.check();
+            SqlCommand command = new SqlCommand();
+            command.CommandType = CommandType.StoredProcedure;
+            command.CommandText = "sp_hoadon";
+            command.Connection = frmDangNhap.conn;
+            command.Parameters.Add("action", "thongke");
+            DataTable dtb = new DataTable();
+            SqlDataAdapter da = new SqlDataAdapter(command);
+            da.Fill(dtb);
 
+            foreach (DataRow row in dtb.Rows)
+            {
+                soluonghoadon++;
+                ListViewItem item = new ListViewItem(row["sMaHD"].ToString());
+                item.SubItems.Add(row["sTenNV"].ToString());
+                item.SubItems.Add(row["sTenKH"].ToString());
+                item.SubItems.Add(row["dNgayLap"].ToString());
+                item.SubItems.Add(row["dTuNgay"].ToString());
+                item.SubItems.Add(row["dDenNgay"].ToString());
+                item.SubItems.Add(row["fChiSoCu"].ToString());
+                item.SubItems.Add(row["fChiSoMoi"].ToString());
+                tongsoluongtieuthu = tongsoluongtieuthu + (Convert.ToInt32(row["fChiSoMoi"]));
+                chisotieuthu = (Convert.ToInt32(row["fChiSoMoi"])) - (Convert.ToInt32(row["fChiSoCu"]));
+                tongnuochoadon = tongnuochoadon + chisotieuthu;
+                item.SubItems.Add(chisotieuthu.ToString());
+                item.SubItems.Add(row["fThueGTGT"].ToString());
+                item.SubItems.Add(row["fTongTien"].ToString());
+                tonggiatrihoadon = tonggiatrihoadon + (Convert.ToInt32(row["fTongTien"]));
+                lvThongKeHoaDon.Items.Add(item);
+            }
+            float trungbinhnuochoadon = (float)(tongnuochoadon / soluonghoadon);
+            trungbinhgiatrihoadon = (float)(tonggiatrihoadon/soluonghoadon);
+            SoLuongHoaDon.Text = soluonghoadon.ToString();
+            TongSoNuocTieuThu.Text = tongsoluongtieuthu.ToString();
+            TrungBinhNuocHoaDon.Text = trungbinhnuochoadon.ToString();
+            TongGiaTriHoaDon.Text = tonggiatrihoadon.ToString();
+            TrungBinhGiaTriHoaDon.Text = trungbinhgiatrihoadon.ToString();
+            frmDangNhap.conn.Close();
+            
         }
 
         private void quảnLýNhânViênToolStripMenuItem_Click(object sender, EventArgs e)
@@ -60,6 +150,7 @@ namespace BAITAPLONCHOT
                 //Nếu quyền == 1 thì cho vào xem
                 if (reader.GetBoolean(2))
                 {
+                    reader.Close();
                     frmNhanVien frm = new frmNhanVien();
                     if (OpenAForm(frm))
                     {
@@ -161,9 +252,9 @@ namespace BAITAPLONCHOT
         {
             CheckBox test = sender as CheckBox;
 
-            for (int i = 0; i < listView1.Items.Count; i++)
+            for (int i = 0; i < lvThongKeHoaDon.Items.Count; i++)
             {
-                listView1.Items[i].Checked = test.Checked;
+                lvThongKeHoaDon.Items[i].Checked = test.Checked;
             }
         }
 
@@ -189,20 +280,250 @@ namespace BAITAPLONCHOT
                 bool value = false;
                 try
                 {
-                    value = Convert.ToBoolean(this.listView1.Columns[e.Column].Tag);
+                    value = Convert.ToBoolean(this.lvThongKeHoaDon.Columns[e.Column].Tag);
                 }
                 catch (Exception)
                 {
                 }
-                this.listView1.Columns[e.Column].Tag = !value;
-                foreach (ListViewItem item in this.listView1.Items)
+                this.lvThongKeHoaDon.Columns[e.Column].Tag = !value;
+                foreach (ListViewItem item in this.lvThongKeHoaDon.Items)
                     item.Checked = !value;
 
-                this.listView1.Invalidate();
+                this.lvThongKeHoaDon.Invalidate();
             }
         }
 
         private void groupBox19_Enter(object sender, EventArgs e)
+        {
+
+        }
+
+        private void tabPage3_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void lvThongKeNhanVien_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        //Lọc bên Nhân viên
+        private string loccheckbox()
+        {
+            string query = "";
+            if (cbNam.Checked == true && cbNu.Checked == true)
+            {
+                if (cbDaNghiViec.Checked == true && cbDangLamViec.Checked == true)
+                {
+                    query = "1 = 1";
+                }
+            }
+            if (cbNam.Checked == true && cbNu.Checked == false)
+            {
+                if (cbDaNghiViec.Checked == true && cbDangLamViec.Checked == false)
+                {
+                    query = "sGioiTinh = N'Nam' and bTrangThai = 0";
+                }
+                if (cbDaNghiViec.Checked == false && cbDangLamViec.Checked == true)
+                {
+                    query = "sGioiTinh = N'Nam' and bTrangThai = 1";
+                }
+                if (cbDaNghiViec.Checked == true && cbDangLamViec.Checked == true)
+                {
+                    query = "sGioiTinh = N'Nam'";
+                }
+                if (cbDaNghiViec.Checked == false && cbDangLamViec.Checked == false)
+                {
+
+                }
+
+            }
+            if (cbNam.Checked == false && cbNu.Checked == true)
+            {
+                if (cbDaNghiViec.Checked == true && cbDangLamViec.Checked == false)
+                {
+                    query = "sGioiTinh = N'Nữ' and bTrangThai = 0";
+                }
+                if (cbDaNghiViec.Checked == false && cbDangLamViec.Checked == true)
+                {
+                    query = "sGioiTinh = N'Nữ' and bTrangThai = 1";
+                }
+                if (cbDaNghiViec.Checked == true && cbDangLamViec.Checked == true)
+                {
+                    query = "sGioiTinh = N'Nữ'";
+                }
+                if (cbDaNghiViec.Checked == false && cbDangLamViec.Checked == false)
+                {
+
+                }
+            }
+            if (cbDaNghiViec.Checked == true && cbDangLamViec.Checked == false)
+            {
+                if (cbNam.Checked == true && cbNu.Checked == false)
+                {
+                    query = "sGioiTinh = N'Nam' and bTrangThai = 0";
+                }
+                if (cbNam.Checked == false && cbNu.Checked == true)
+                {
+                    query = "sGioiTinh = N'Nữ' and bTrangThai = 0";
+                }
+                if (cbNam.Checked == true && cbNu.Checked == true)
+                {
+                    query = "bTrangThai = 0";
+                }
+                if (cbNam.Checked == false && cbNu.Checked == false)
+                {
+
+                }
+            }
+            if (cbDaNghiViec.Checked == false && cbDangLamViec.Checked == true)
+            {
+                if (cbNam.Checked == true && cbNu.Checked == false)
+                {
+                    query = "sGioiTinh = N'Nam' and bTrangThai = 1";
+                }
+                if (cbNam.Checked == false && cbNu.Checked == true)
+                {
+                    query = "sGioiTinh = N'Nữ' and bTrangThai = 1";
+                }
+                if (cbNam.Checked == true && cbNu.Checked == true)
+                {
+                    query = "bTrangThai = 1";
+                }
+                if (cbNam.Checked == false && cbNu.Checked == false)
+                {
+
+                }
+            }
+            return query;
+        }
+        private void btnLoc_Click(object sender, EventArgs e)
+        {
+            try
+            {
+            string truyvan = loccheckbox();
+            frmDangNhap.check();
+            SqlCommand command = new SqlCommand();
+            command.CommandType = CommandType.StoredProcedure;
+            command.CommandText = "sp_locnhanvien";
+            command.Connection = frmDangNhap.conn;
+            command.Parameters.Add("@action", truyvan);
+            DataTable dtb = new DataTable();
+            SqlDataAdapter da = new SqlDataAdapter(command);
+            da.Fill(dtb);
+            lvThongKeNhanVien.Items.Clear();
+            foreach (DataRow row in dtb.Rows)
+            {
+                ListViewItem item = new ListViewItem(row["sMaNV"].ToString());
+                item.SubItems.Add(row["sTenNV"].ToString());
+                item.SubItems.Add(row["dNgaySinh"].ToString());
+                item.SubItems.Add(row["sDiaChi"].ToString());
+                item.SubItems.Add(row["sGioiTinh"].ToString());
+                item.SubItems.Add(row["sSDT"].ToString());
+                item.SubItems.Add(row["sChucVu"].ToString());
+                item.SubItems.Add(row["fHSL"].ToString());
+                item.SubItems.Add((bool)(row["bTrangThai"]) == true ? "Đang đi làm" : "Đã nghỉ");
+                lvThongKeNhanVien.Items.Add(item);
+            }
+            }
+            catch (Exception x)
+            {
+                MessageBox.Show("Vui lòng chọn đúng điều liện lọc");
+            }
+        }
+
+       
+
+        private void listView1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void tabPage1_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void textBox1_TextChanged(object sender, EventArgs e)
+        {
+            int chisotieuthu = 0;
+            int soluonghoadon = 0;
+            int tongsoluongtieuthu = 0;
+            int tongnuochoadon = 0;
+            float tonggiatrihoadon = 0;
+            float trungbinhgiatrihoadon = 0;
+            frmDangNhap.check();
+            SqlCommand command = new SqlCommand();
+            command.CommandType = CommandType.StoredProcedure;
+            command.CommandText = "sp_timkiemthongkehoadon";
+            command.Connection = frmDangNhap.conn;
+            command.Parameters.Add("@data", txtTimKiemHD.Text);
+            DataTable dtb = new DataTable();
+            SqlDataAdapter da = new SqlDataAdapter(command);
+            da.Fill(dtb);
+            lvThongKeHoaDon.Items.Clear();
+            foreach (DataRow row in dtb.Rows)
+            {
+                soluonghoadon++;
+                ListViewItem item = new ListViewItem(row["sMaHD"].ToString());
+                item.SubItems.Add(row["sTenNV"].ToString());
+                item.SubItems.Add(row["sTenKH"].ToString());
+                item.SubItems.Add(row["dNgayLap"].ToString());
+                item.SubItems.Add(row["dTuNgay"].ToString());
+                item.SubItems.Add(row["dDenNgay"].ToString());
+                item.SubItems.Add(row["fChiSoCu"].ToString());
+                item.SubItems.Add(row["fChiSoMoi"].ToString());
+                tongsoluongtieuthu = tongsoluongtieuthu + (Convert.ToInt32(row["fChiSoMoi"]));
+                chisotieuthu = (Convert.ToInt32(row["fChiSoMoi"])) - (Convert.ToInt32(row["fChiSoCu"]));
+                tongnuochoadon = tongnuochoadon + chisotieuthu;
+                item.SubItems.Add(chisotieuthu.ToString());
+                item.SubItems.Add(row["fThueGTGT"].ToString());
+                item.SubItems.Add(row["fTongTien"].ToString());
+                tonggiatrihoadon = tonggiatrihoadon + (Convert.ToInt32(row["fTongTien"]));
+                lvThongKeHoaDon.Items.Add(item);
+            }
+            float trungbinhnuochoadon = 0 ;
+            try {
+                trungbinhnuochoadon = (float)(tongnuochoadon / soluonghoadon);
+                trungbinhgiatrihoadon = (float)(tonggiatrihoadon / soluonghoadon);
+            }
+            catch(Exception y) {
+                
+            }
+            SoLuongHoaDon.Text = soluonghoadon.ToString();
+            TongSoNuocTieuThu.Text = tongsoluongtieuthu.ToString();
+            TrungBinhNuocHoaDon.Text = trungbinhnuochoadon.ToString();
+            TongGiaTriHoaDon.Text = tonggiatrihoadon.ToString();
+            TrungBinhGiaTriHoaDon.Text = trungbinhgiatrihoadon.ToString();
+            frmDangNhap.conn.Close();
+        }
+
+        private void rdTuyChinhThoiGian_CheckedChanged(object sender, EventArgs e)
+        {
+            dTuNgay.Enabled = true;
+            dDenNgay.Enabled = true;
+        }
+
+        private void rdTuyChinhThanhTien_CheckedChanged(object sender, EventArgs e)
+        {
+            txtTuTien.Enabled = true;
+            txtDenTien.Enabled = true;
+        }
+
+        private void rdTatCaThoiGian_CheckedChanged(object sender, EventArgs e)
+        {
+            dTuNgay.Enabled = false;
+            dDenNgay.Enabled = false;
+        }
+
+        private void rdTatCaThanhTien_CheckedChanged(object sender, EventArgs e)
+        {
+            txtTuTien.Enabled = false;
+            txtDenTien.Enabled = false;
+        }
+
+        private void btnLocHoaDon_Click(object sender, EventArgs e)
         {
 
         }

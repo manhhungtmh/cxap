@@ -126,6 +126,7 @@ namespace BAITAPLONCHOT
             dNgayLap.ShowUpDown = true;
             hienthihoadon();
         }
+        string makhtam = "";
         private void hienthihoadon()
         {
             frmDangNhap.check();
@@ -141,14 +142,15 @@ namespace BAITAPLONCHOT
             foreach (DataRow row in dtb.Rows)
             {
                 ListViewItem item = new ListViewItem(row["sMaHD"].ToString());
+                item.SubItems.Add(row["sTenNV"].ToString());
                 item.SubItems.Add(row["sMaKH"].ToString());
-                item.SubItems.Add(row["sMaNV"].ToString());
                 item.SubItems.Add(row["dNgayLap"].ToString());
                 item.SubItems.Add(row["dTuNgay"].ToString());
                 item.SubItems.Add(row["dDenNgay"].ToString());
                 item.SubItems.Add(row["fChiSoCu"].ToString());
                 item.SubItems.Add(row["fChiSoMoi"].ToString());
-                item.SubItems.Add(row["fThueGTGT"].ToString());
+                //item.SubItems.Add(row["fThueGTGT"].ToString());
+                item.SubItems.Add(row["fTongTien"].ToString());
                 item.SubItems.Add((bool)(row["bTrangThai"]) == true ? "Đang sử dụng" : "Không sử dụng");
                 lvHoaDon.Items.Add(item);
             }
@@ -205,6 +207,7 @@ namespace BAITAPLONCHOT
                 //Nếu quyền == 1 thì cho vào xem
                 if (reader.GetBoolean(2))
                 {
+                    reader.Close();
                     frmNhanVien frm = new frmNhanVien();
                     if (OpenAForm(frm))
                     {
@@ -341,8 +344,8 @@ namespace BAITAPLONCHOT
             {
                 ListViewItem lvi = lvHoaDon.SelectedItems[0];
                 txtMaHD.Text = lvi.SubItems[0].Text;
-                txtMaKH.Text = lvi.SubItems[1].Text;
-                txtMaNV.Text = lvi.SubItems[2].Text;
+                txtMaKH.Text = lvi.SubItems[2].Text;
+                txtMaNV.Text = lvi.SubItems[1].Text;
                 txtChiSoCu.Text = lvi.SubItems[6].Text;
                 txtChiSoMoi.Text = lvi.SubItems[7].Text;
                 dNgayLap.Text = lvi.SubItems[5].Text;
@@ -420,7 +423,7 @@ namespace BAITAPLONCHOT
                 command.Parameters.Add("@chisocu", Convert.ToInt32(txtChiSoCu.Text));
                 command.Parameters.Add("@chisomoi", Convert.ToInt32(txtChiSoMoi.Text));
                 command.Parameters.Add("@thuegtgt", Math.Round(thue, 1));
-
+                command.Parameters.Add("@tongtien", txtTongTien.Text);
                 int ret = command.ExecuteNonQuery();
                 if (ret > 0)
                 {
@@ -460,6 +463,13 @@ namespace BAITAPLONCHOT
                         MessageBox.Show("Xóa thành công");
                         lvHoaDon.Items.Clear();
                         frmHoaDon_Load(sender, e);
+                        txtMaHD.Clear();
+                        txtMaKH.Clear();
+                        txtMaNV.Clear();
+                        txtTongTien.Clear();
+                        txtChiSoCu.Clear();
+                        txtChiSoMoi.Clear();
+                        txtChiSoTieuThu.Clear();
                     }
                     else
                     {
@@ -482,6 +492,7 @@ namespace BAITAPLONCHOT
                 if (MessageBox.Show("Bạn chắc chắn muốn sửa khách hàng này không ?", "Thông báo", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.Yes)
                 {
                     float thue = 0;
+                    string manv = frmInformation.get_manv();
                     thue = float.Parse(txtThueGTGT.Text);
                     frmDangNhap.check();
                     SqlCommand command = new SqlCommand();
@@ -491,7 +502,7 @@ namespace BAITAPLONCHOT
                     command.Parameters.Add("@action", "update");
                     command.Parameters.Add("@mahd", txtMaHD.Text);
                     command.Parameters.Add("@makh", txtMaKH.Text);
-                    command.Parameters.Add("@manv", txtMaNV.Text);
+                    command.Parameters.Add("@manv", manv);
                     command.Parameters.Add("@ngaylap", Convert.ToDateTime(DateTime.Now.ToString()));
                     DateTime first = GetFirstDayOfMonth(dNgayLap.Value);
                     DateTime last = GetLastDayOfMonth(dNgayLap.Value);
@@ -500,6 +511,7 @@ namespace BAITAPLONCHOT
                     command.Parameters.Add("@chisocu", Convert.ToInt32(txtChiSoCu.Text));
                     command.Parameters.Add("@chisomoi", Convert.ToInt32(txtChiSoMoi.Text));
                     command.Parameters.Add("@thuegtgt", Math.Round(thue, 1));
+                    command.Parameters.Add("@tongtien", txtTongTien.Text);
 
                     int ret = command.ExecuteNonQuery();
                     if (ret > 0)
@@ -540,6 +552,7 @@ namespace BAITAPLONCHOT
                 item.SubItems.Add(row["dDenNgay"].ToString());
                 item.SubItems.Add(row["fChiSoCu"].ToString());
                 item.SubItems.Add(row["fChiSoMoi"].ToString());
+                item.SubItems.Add(row["fTongTien"].ToString());
                 lvHoaDon.Items.Add(item);
             }
         }

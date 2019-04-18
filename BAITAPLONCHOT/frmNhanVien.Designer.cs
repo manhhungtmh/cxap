@@ -334,7 +334,7 @@
             // 
             // txtTimKiem
             // 
-            this.txtTimKiem.Location = new System.Drawing.Point(818, 93);
+            this.txtTimKiem.Location = new System.Drawing.Point(843, 93);
             this.txtTimKiem.Name = "txtTimKiem";
             this.txtTimKiem.Size = new System.Drawing.Size(188, 24);
             this.txtTimKiem.TabIndex = 11;
@@ -343,7 +343,7 @@
             // label8
             // 
             this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(744, 96);
+            this.label8.Location = new System.Drawing.Point(769, 96);
             this.label8.Name = "label8";
             this.label8.Size = new System.Drawing.Size(77, 18);
             this.label8.TabIndex = 12;

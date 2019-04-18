@@ -48,11 +48,11 @@
             this.label2 = new System.Windows.Forms.Label();
             this.panel2 = new System.Windows.Forms.Panel();
             this.label12 = new System.Windows.Forms.Label();
-            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.txtMatKhauCu = new System.Windows.Forms.TextBox();
             this.label10 = new System.Windows.Forms.Label();
             this.txtXacNhanMatKhau = new System.Windows.Forms.TextBox();
             this.label9 = new System.Windows.Forms.Label();
-            this.txtMatKhau = new System.Windows.Forms.TextBox();
+            this.txtMatKhauMoi = new System.Windows.Forms.TextBox();
             this.txtTenTaiKhoan = new System.Windows.Forms.TextBox();
             this.label8 = new System.Windows.Forms.Label();
             this.btnLuu = new System.Windows.Forms.Button();
@@ -246,11 +246,11 @@
             // panel2
             // 
             this.panel2.Controls.Add(this.label12);
-            this.panel2.Controls.Add(this.textBox1);
+            this.panel2.Controls.Add(this.txtMatKhauCu);
             this.panel2.Controls.Add(this.label10);
             this.panel2.Controls.Add(this.txtXacNhanMatKhau);
             this.panel2.Controls.Add(this.label9);
-            this.panel2.Controls.Add(this.txtMatKhau);
+            this.panel2.Controls.Add(this.txtMatKhauMoi);
             this.panel2.Controls.Add(this.txtTenTaiKhoan);
             this.panel2.Controls.Add(this.label8);
             this.panel2.Location = new System.Drawing.Point(6, 22);
@@ -267,13 +267,13 @@
             this.label12.TabIndex = 8;
             this.label12.Text = "Mật khẩu cũ :";
             // 
-            // textBox1
+            // txtMatKhauCu
             // 
-            this.textBox1.Location = new System.Drawing.Point(173, 58);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.PasswordChar = '*';
-            this.textBox1.Size = new System.Drawing.Size(188, 24);
-            this.textBox1.TabIndex = 7;
+            this.txtMatKhauCu.Location = new System.Drawing.Point(173, 58);
+            this.txtMatKhauCu.Name = "txtMatKhauCu";
+            this.txtMatKhauCu.PasswordChar = '*';
+            this.txtMatKhauCu.Size = new System.Drawing.Size(188, 24);
+            this.txtMatKhauCu.TabIndex = 7;
             // 
             // label10
             // 
@@ -301,13 +301,13 @@
             this.label9.TabIndex = 4;
             this.label9.Text = "Mật khẩu mới :";
             // 
-            // txtMatKhau
+            // txtMatKhauMoi
             // 
-            this.txtMatKhau.Location = new System.Drawing.Point(173, 102);
-            this.txtMatKhau.Name = "txtMatKhau";
-            this.txtMatKhau.PasswordChar = '*';
-            this.txtMatKhau.Size = new System.Drawing.Size(188, 24);
-            this.txtMatKhau.TabIndex = 3;
+            this.txtMatKhauMoi.Location = new System.Drawing.Point(173, 102);
+            this.txtMatKhauMoi.Name = "txtMatKhauMoi";
+            this.txtMatKhauMoi.PasswordChar = '*';
+            this.txtMatKhauMoi.Size = new System.Drawing.Size(188, 24);
+            this.txtMatKhauMoi.TabIndex = 3;
             // 
             // txtTenTaiKhoan
             // 
@@ -398,6 +398,7 @@
             this.groupBox3.TabIndex = 10;
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "Thông tin tài khoản";
+            this.groupBox3.Enter += new System.EventHandler(this.groupBox3_Enter);
             // 
             // menuStrip1
             // 
@@ -541,7 +542,7 @@
         private System.Windows.Forms.Label label10;
         private System.Windows.Forms.TextBox txtXacNhanMatKhau;
         private System.Windows.Forms.Label label9;
-        private System.Windows.Forms.TextBox txtMatKhau;
+        private System.Windows.Forms.TextBox txtMatKhauMoi;
         private System.Windows.Forms.Button btnDoiMatKhau;
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.GroupBox groupBox2;
@@ -556,7 +557,7 @@
         private System.Windows.Forms.ToolStripMenuItem thongtinnhanvienToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem đăngXuấtToolStripMenuItem;
         private System.Windows.Forms.Label label13;
-        private System.Windows.Forms.TextBox textBox1;
+        private System.Windows.Forms.TextBox txtMatKhauCu;
         private System.Windows.Forms.Label label12;
     }
 }
