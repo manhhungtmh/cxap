@@ -403,5 +403,29 @@ namespace BAITAPLONCHOT
                 lvNhanVien.Items.Add(item);
             }
         }
+
+        private void button5_Click(object sender, EventArgs e)
+        {
+            if (lvNhanVien.SelectedItems.Count > 0)
+            {
+                InNhanVienTheoMa rptInNhanVien = new InNhanVienTheoMa(txtMaNV.Text);
+                rptInNhanVien.Show();  
+            }
+            else
+            {
+                DanhSachNhanVien rptInNhanVien = new DanhSachNhanVien();
+                rptInNhanVien.Show();
+            } 
+        }
+
+        private void đăngXuấtToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (MessageBox.Show("Bạn chắc chắn muốn đăng xuất hỏi hệ không ?", "Thông báo", MessageBoxButtons.YesNo) == DialogResult.Yes)
+            {
+                frmDangNhap frm = new frmDangNhap();
+                frm.Show();
+                this.Close();
+            }
+        }
     }
 }

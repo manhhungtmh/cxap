@@ -89,7 +89,7 @@ namespace BAITAPLONCHOT
                 MessageBox.Show(e.ToString());
             }
         }
-        private void luu_ss(string ma,string matkhau, int quyen)
+        private void luu_ss(string ma, string quyen, int matkhau)
         {
             check();
             SqlCommand command = new SqlCommand();

@@ -30,6 +30,7 @@
         {
             this.crystalReportViewer1 = new CrystalDecisions.Windows.Forms.CrystalReportViewer();
             this.k1 = new BAITAPLONCHOT.k();
+            this.cachedk1 = new BAITAPLONCHOT.Cachedk();
             this.SuspendLayout();
             // 
             // crystalReportViewer1
@@ -42,14 +43,14 @@
             this.crystalReportViewer1.Location = new System.Drawing.Point(0, 0);
             this.crystalReportViewer1.Name = "crystalReportViewer1";
             this.crystalReportViewer1.ReportSource = this.k1;
-            this.crystalReportViewer1.Size = new System.Drawing.Size(923, 468);
+            this.crystalReportViewer1.Size = new System.Drawing.Size(1152, 501);
             this.crystalReportViewer1.TabIndex = 0;
             // 
             // InKH
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(923, 468);
+            this.ClientSize = new System.Drawing.Size(1152, 501);
             this.Controls.Add(this.crystalReportViewer1);
             this.Name = "InKH";
             this.Text = "InKH";
@@ -62,5 +63,6 @@
 
         private CrystalDecisions.Windows.Forms.CrystalReportViewer crystalReportViewer1;
         private k k1;
+        private Cachedk cachedk1;
     }
 }

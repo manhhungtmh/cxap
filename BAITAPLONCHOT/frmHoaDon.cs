@@ -256,7 +256,7 @@ namespace BAITAPLONCHOT
 
         private void quảnLýHóaĐơnToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            MessageBox.Show("là: " + this.Name, "Thông báo");
+            
         }
 
         private Boolean OpenAForm(Form form)
@@ -475,10 +475,8 @@ namespace BAITAPLONCHOT
                     {
                         MessageBox.Show("Xóa không thành công");
                     }
-
                 }
             }
-
         }
 
         private void btnSua_Click(object sender, EventArgs e)
@@ -554,6 +552,22 @@ namespace BAITAPLONCHOT
                 item.SubItems.Add(row["fChiSoMoi"].ToString());
                 item.SubItems.Add(row["fTongTien"].ToString());
                 lvHoaDon.Items.Add(item);
+            }
+        }
+
+        private void button5_Click(object sender, EventArgs e)
+        {
+            DanhSachHoaDon dshd = new DanhSachHoaDon();
+            dshd.Show();
+        }
+
+        private void đăngXuấtToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (MessageBox.Show("Bạn chắc chắn muốn đăng xuất hỏi hệ không ?", "Thông báo", MessageBoxButtons.YesNo) == DialogResult.Yes)
+            {
+                frmDangNhap frm = new frmDangNhap();
+                frm.Show();
+                this.Close();
             }
         }
 

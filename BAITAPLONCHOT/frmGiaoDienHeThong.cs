@@ -44,6 +44,7 @@ namespace BAITAPLONCHOT
             SqlDataReader reader = command.ExecuteReader();
             if (reader.Read())
             {
+                //MessageBox.Show(reader.GetBoolean(2).ToString());
                 //Nếu quyền == 1 thì cho vào xem
                 if (reader.GetBoolean(2))
                 {

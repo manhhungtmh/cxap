@@ -362,8 +362,26 @@ namespace BAITAPLONCHOT
 
         private void button5_Click(object sender, EventArgs e)
         {
-            InKH iKH = new InKH(txtMaKH.Text);
-            iKH.Show();
+            if (lvKhachHang.SelectedItems.Count > 0)
+            {
+                InKhachHangTheoMa iKH = new InKhachHangTheoMa(txtMaKH.Text);
+                iKH.Show();
+            }
+            else
+            {
+                DanhSachKhachHang rptInKH = new DanhSachKhachHang();
+                rptInKH.Show();
+            } 
+        }
+
+        private void đăngXuấtToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (MessageBox.Show("Bạn chắc chắn muốn đăng xuất hỏi hệ không ?", "Thông báo", MessageBoxButtons.YesNo) == DialogResult.Yes)
+            {
+                frmDangNhap frm = new frmDangNhap();
+                frm.Show();
+                this.Close();
+            }
         }
     }
 }

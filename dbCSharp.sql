@@ -585,12 +585,52 @@ begin
 	order by sMaHD DESC
 end
 --thống kê hóa đơn
-select *from tblNhanVien
-alter proc sp_locnhanvien
+select *from tblHoaDon where dNgayLap >= '2019-04-17'
+alter proc sp_lochoadon
 @action nvarchar(255)
 as
 	declare @query nvarchar(1000)
 begin
-	set @query = N'select * from tblNhanVien where ' + @action
+	set @query = N'select sMaHD, tblNhanVien.sTenNV, tblKhachHang.sTenKH, dNgayLap, dTuNgay, dDenNgay, fChiSoCu, fChiSoMoi, fThueGTGT, tblHoaDon.bTrangThai, tblHoaDon.sMaKH, tblHoaDon.fTongTien
+			from tblHoaDon, tblKhachHang, tblNhanVien
+			where tblHoaDon.sMaKH = tblKhachHang.sMaKH and 
+			tblHoaDon.sMaNV = tblNhanVien.sMaNV and ' + @action
 	execute(@query)
+end
+
+exec sp_lochoadon @action = 'dNgayLap >= ''2019-04-17'' and 1=1'
+--------------------------------------------CRYSTAL REPORT
+alter proc cr_danhsachnhanvien
+as
+begin
+	select *from tblNhanVien
+	where bTrangThai = 1
+end
+alter proc cr_danhsachkhachhang
+as
+begin
+	select *from tblKhachHang
+	where bTrangThai = 1
+end
+alter proc cr_danhsachhoadon
+as
+begin
+	select sMaHD, sTenNV, sTenKH, dNgayLap, dTuNgay, dDenNgay, fChiSoCu, fChiSoMoi, fTongTien
+	from tblHoaDon,tblNhanVien, tblKhachHang
+	where tblHoaDon.bTrangThai = 1 and tblKhachHang.sMaKH = tblHoaDon.sMaKH and tblNhanVien.sMaNV = tblHoaDon.sMaNV
+end
+
+create proc cr_nhanvientheoma
+@manv char(10)
+as
+begin
+	select * from tblNhanVien
+	where sMaNV = @manv
+end
+create proc cr_khachhangtheoma
+@makh char(10)
+as
+begin
+	select * from tblKhachHang
+	where sMaKH = @makh
 end

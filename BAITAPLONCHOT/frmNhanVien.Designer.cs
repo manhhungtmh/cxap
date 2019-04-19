@@ -56,7 +56,6 @@
             this.columnHeader9 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.label2 = new System.Windows.Forms.Label();
-            this.button5 = new System.Windows.Forms.Button();
             this.txtTimKiem = new System.Windows.Forms.TextBox();
             this.label8 = new System.Windows.Forms.Label();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
@@ -70,6 +69,7 @@
             this.btnSua = new System.Windows.Forms.Button();
             this.btnLuu = new System.Windows.Forms.Button();
             this.btnThem = new System.Windows.Forms.Button();
+            this.button5 = new System.Windows.Forms.Button();
             this.panel1.SuspendLayout();
             this.groupBox1.SuspendLayout();
             this.menuStrip1.SuspendLayout();
@@ -321,17 +321,6 @@
             this.label2.TabIndex = 5;
             this.label2.Text = "QUẢN LÝ NHÂN VIÊN";
             // 
-            // button5
-            // 
-            this.button5.Image = global::BAITAPLONCHOT.Properties.Resources.export;
-            this.button5.Location = new System.Drawing.Point(880, 441);
-            this.button5.Name = "button5";
-            this.button5.Size = new System.Drawing.Size(141, 44);
-            this.button5.TabIndex = 10;
-            this.button5.Text = "In danh sách";
-            this.button5.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
-            this.button5.UseVisualStyleBackColor = true;
-            // 
             // txtTimKiem
             // 
             this.txtTimKiem.Location = new System.Drawing.Point(843, 93);
@@ -423,6 +412,7 @@
             this.đăngXuấtToolStripMenuItem.Name = "đăngXuấtToolStripMenuItem";
             this.đăngXuấtToolStripMenuItem.Size = new System.Drawing.Size(109, 44);
             this.đăngXuấtToolStripMenuItem.Text = "Đăng xuất";
+            this.đăngXuấtToolStripMenuItem.Click += new System.EventHandler(this.đăngXuấtToolStripMenuItem_Click);
             // 
             // btnXoa
             // 
@@ -481,6 +471,18 @@
             this.btnThem.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
             this.btnThem.UseVisualStyleBackColor = true;
             this.btnThem.Click += new System.EventHandler(this.button1_Click);
+            // 
+            // button5
+            // 
+            this.button5.Image = global::BAITAPLONCHOT.Properties.Resources.export;
+            this.button5.Location = new System.Drawing.Point(880, 441);
+            this.button5.Name = "button5";
+            this.button5.Size = new System.Drawing.Size(141, 44);
+            this.button5.TabIndex = 10;
+            this.button5.Text = "In danh sách";
+            this.button5.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
+            this.button5.UseVisualStyleBackColor = true;
+            this.button5.Click += new System.EventHandler(this.button5_Click);
             // 
             // frmNhanVien
             // 

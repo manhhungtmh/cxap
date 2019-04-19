@@ -14,3 +14,9 @@ C:\Users\hungh\Desktop\fit\cxap\BAITAPLONCHOT\obj\Release\BAITAPLONCHOT.csproj.G
 C:\Users\hungh\Desktop\fit\cxap\BAITAPLONCHOT\obj\Release\BAITAPLONCHOT.exe
 C:\Users\hungh\Desktop\fit\cxap\BAITAPLONCHOT\obj\Release\BAITAPLONCHOT.pdb
 C:\Users\hungh\Desktop\fit\cxap\BAITAPLONCHOT\obj\Release\BAITAPLONCHOT.InKH.resources
+C:\Users\hungh\Desktop\fit\cxap\BAITAPLONCHOT\obj\Release\BAITAPLONCHOT.InNhanVien.resources
+C:\Users\hungh\Desktop\fit\cxap\BAITAPLONCHOT\obj\Release\BAITAPLONCHOT.DanhSachNhanVien.resources
+C:\Users\hungh\Desktop\fit\cxap\BAITAPLONCHOT\obj\Release\BAITAPLONCHOT.DanhSachKhachHang.resources
+C:\Users\hungh\Desktop\fit\cxap\BAITAPLONCHOT\obj\Release\BAITAPLONCHOT.InNhanVienTheoMa.resources
+C:\Users\hungh\Desktop\fit\cxap\BAITAPLONCHOT\obj\Release\BAITAPLONCHOT.InKhachHangTheoMa.resources
+C:\Users\hungh\Desktop\fit\cxap\BAITAPLONCHOT\obj\Release\BAITAPLONCHOT.DanhSachHoaDon.resources

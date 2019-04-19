@@ -14,6 +14,8 @@ namespace BAITAPLONCHOT
 {
     public partial class frmThongKe : Form
     {
+        public DataTable dtb_hd;
+
         public frmThongKe()
         {
             InitializeComponent();
@@ -84,6 +86,9 @@ namespace BAITAPLONCHOT
         }
         private void thongkehoadon()
         {
+            dTuNgay.CustomFormat = "dd-MM-yyyy";
+            dDenNgay.CustomFormat = "dd-MM-yyyy";
+            //MessageBox.Show(dTuNgay.Text.ToString());
             rdTatCaThanhTien.Checked = true;
             rdTatCaThoiGian.Checked = true;
             dTuNgay.Enabled = false;
@@ -102,11 +107,11 @@ namespace BAITAPLONCHOT
             command.CommandText = "sp_hoadon";
             command.Connection = frmDangNhap.conn;
             command.Parameters.Add("action", "thongke");
-            DataTable dtb = new DataTable();
+            dtb_hd = new DataTable();
             SqlDataAdapter da = new SqlDataAdapter(command);
-            da.Fill(dtb);
+            da.Fill(dtb_hd);
 
-            foreach (DataRow row in dtb.Rows)
+            foreach (DataRow row in dtb_hd.Rows)
             {
                 soluonghoadon++;
                 ListViewItem item = new ListViewItem(row["sMaHD"].ToString());
@@ -447,18 +452,19 @@ namespace BAITAPLONCHOT
 
         private void textBox1_TextChanged(object sender, EventArgs e)
         {
-            int chisotieuthu = 0;
-            int soluonghoadon = 0;
-            int tongsoluongtieuthu = 0;
-            int tongnuochoadon = 0;
-            float tonggiatrihoadon = 0;
-            float trungbinhgiatrihoadon = 0;
+            
             frmDangNhap.check();
             SqlCommand command = new SqlCommand();
             command.CommandType = CommandType.StoredProcedure;
             command.CommandText = "sp_timkiemthongkehoadon";
             command.Connection = frmDangNhap.conn;
             command.Parameters.Add("@data", txtTimKiemHD.Text);
+            int chisotieuthu = 0;
+            int soluonghoadon = 0;
+            int tongsoluongtieuthu = 0;
+            int tongnuochoadon = 0;
+            float tonggiatrihoadon = 0;
+            float trungbinhgiatrihoadon = 0;
             DataTable dtb = new DataTable();
             SqlDataAdapter da = new SqlDataAdapter(command);
             da.Fill(dtb);
@@ -526,6 +532,102 @@ namespace BAITAPLONCHOT
         private void btnLocHoaDon_Click(object sender, EventArgs e)
         {
 
+            int chisotieuthu = 0;
+            int soluonghoadon = 0;
+            int tongsoluongtieuthu = 0;
+            int tongnuochoadon = 0;
+            float tonggiatrihoadon = 0;
+            float trungbinhgiatrihoadon = 0;
+            DateTime tungay;
+            DateTime denngay;
+            float tutien;
+            float dentien;
+            try
+            {
+                 tungay = DateTime.ParseExact(dTuNgay.Text, "dd/MM/yyyy", System.Globalization.CultureInfo.InvariantCulture);
+                 denngay = DateTime.ParseExact(dDenNgay.Text, "dd/MM/yyyy", System.Globalization.CultureInfo.InvariantCulture);
+                 tutien = float.Parse(txtTuTien.Text);
+                 dentien = float.Parse(txtDenTien.Text);
+                lvThongKeHoaDon.Items.Clear();
+            
+            foreach (DataRow row in dtb_hd.Rows)
+            {
+                soluonghoadon++;
+                    ListViewItem item = new ListViewItem(row["sMaHD"].ToString());
+                    item.SubItems.Add(row["sTenNV"].ToString());
+                    item.SubItems.Add(row["sTenKH"].ToString());
+                    DateTime date = DateTime.Parse(row["dNgayLap"].ToString());
+                    item.SubItems.Add(date.ToString("dd/MM/yyyy hh:ss"));
+                    item.SubItems.Add(row["dTuNgay"].ToString());
+                    item.SubItems.Add(row["dDenNgay"].ToString());
+                    item.SubItems.Add(row["fChiSoCu"].ToString());
+                    item.SubItems.Add(row["fChiSoMoi"].ToString());
+                tongsoluongtieuthu = tongsoluongtieuthu + (Convert.ToInt32(row["fChiSoMoi"]));
+                chisotieuthu = (Convert.ToInt32(row["fChiSoMoi"])) - (Convert.ToInt32(row["fChiSoCu"]));
+                tongnuochoadon = tongnuochoadon + chisotieuthu;
+                item.SubItems.Add(chisotieuthu.ToString());
+                item.SubItems.Add(row["fThueGTGT"].ToString());
+                float tongtien = Convert.ToInt32(row["fTongTien"]);
+                item.SubItems.Add(row["fTongTien"].ToString());
+                tonggiatrihoadon = tonggiatrihoadon + (Convert.ToInt32(row["fTongTien"]));
+                int value = DateTime.Compare(date, tungay);
+                int value1 = DateTime.Compare(date, denngay);
+                if (rdTatCaThoiGian.Checked == true && rdTatCaThanhTien.Checked == true)
+                {
+                    lvThongKeHoaDon.Items.Add(item);
+                }
+                if (rdTatCaThoiGian.Checked == false && rdTatCaThanhTien.Checked == false)
+                {
+                    if (value > 0 && value1 < 0 && tutien < tongtien && dentien > tongtien)
+                    {
+                        lvThongKeHoaDon.Items.Add(item);
+                    }
+                }
+                if (rdTuyChinhThoiGian.Checked == true && rdTatCaThanhTien.Checked == true)
+                {
+                    if (value > 0 && value1 < 0)
+                    {
+                        lvThongKeHoaDon.Items.Add(item);
+                    }
+                }
+                if (rdTatCaThoiGian.Checked == true && rdTuyChinhThanhTien.Checked == true)
+                {
+                    if (tutien < tongtien && dentien > tongtien)
+                    {
+                        lvThongKeHoaDon.Items.Add(item);
+                    }
+                }
+                
+                float trungbinhnuochoadon = (float)(tongnuochoadon / soluonghoadon);
+                trungbinhgiatrihoadon = (float)(tonggiatrihoadon / soluonghoadon);
+                SoLuongHoaDon.Text = soluonghoadon.ToString();
+                TongSoNuocTieuThu.Text = tongsoluongtieuthu.ToString();
+                TrungBinhNuocHoaDon.Text = trungbinhnuochoadon.ToString();
+                TongGiaTriHoaDon.Text = tonggiatrihoadon.ToString();
+                TrungBinhGiaTriHoaDon.Text = trungbinhgiatrihoadon.ToString();
+                frmDangNhap.conn.Close();
+            }
+            }
+            catch (Exception z)
+            {
+
+            }
+        }
+
+        private void dTuNgay_ValueChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void đăngXuấtToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (MessageBox.Show("Bạn chắc chắn muốn đăng xuất hỏi hệ không ?", "Thông báo", MessageBoxButtons.YesNo) == DialogResult.Yes)
+            {
+                Application.Exit();
+                frmDangNhap frm = new frmDangNhap();
+                frm.Show();
+                this.Close();
+            }
         }
     }
 }
