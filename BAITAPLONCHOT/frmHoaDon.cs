@@ -557,8 +557,16 @@ namespace BAITAPLONCHOT
 
         private void button5_Click(object sender, EventArgs e)
         {
-            DanhSachHoaDon dshd = new DanhSachHoaDon();
-            dshd.Show();
+            if (lvHoaDon.SelectedItems.Count > 0)
+            {
+                InHoaDonTheoMa iHD = new InHoaDonTheoMa(txtMaHD.Text);
+                iHD.Show();
+            }
+            else
+            {
+                DanhSachHoaDon iHD = new DanhSachHoaDon();
+                iHD.Show();
+            } 
         }
 
         private void đăngXuấtToolStripMenuItem_Click(object sender, EventArgs e)

@@ -42,7 +42,7 @@
             this.crystalReportViewer1.Location = new System.Drawing.Point(0, 0);
             this.crystalReportViewer1.Name = "crystalReportViewer1";
             this.crystalReportViewer1.ReportSource = this.cr_InMotKhachHang1;
-            this.crystalReportViewer1.Size = new System.Drawing.Size(902, 497);
+            this.crystalReportViewer1.Size = new System.Drawing.Size(1403, 784);
             this.crystalReportViewer1.TabIndex = 0;
             this.crystalReportViewer1.Load += new System.EventHandler(this.crystalReportViewer1_Load);
             // 
@@ -50,10 +50,12 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(902, 497);
+            this.ClientSize = new System.Drawing.Size(1403, 784);
             this.Controls.Add(this.crystalReportViewer1);
             this.Name = "InKhachHangTheoMa";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "InKhachHangTheoMa";
+            this.Load += new System.EventHandler(this.InKhachHangTheoMa_Load);
             this.ResumeLayout(false);
 
         }

@@ -34,8 +34,6 @@ namespace BAITAPLONCHOT
         //}
         private void hiendein()
         {
-
-            // MessageBox.Show(ma);
             ReportDocument rpt = new ReportDocument();
             TableLogOnInfos crtableLogoninfos = new TableLogOnInfos();
             TableLogOnInfo crtableLogoninfo = new TableLogOnInfo();

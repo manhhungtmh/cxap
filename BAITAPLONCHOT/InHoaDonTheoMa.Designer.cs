@@ -1,6 +1,6 @@
 ﻿namespace BAITAPLONCHOT
 {
-    partial class InNhanVienTheoMa
+    partial class InHoaDonTheoMa
     {
         /// <summary>
         /// Required designer variable.
@@ -29,7 +29,7 @@
         private void InitializeComponent()
         {
             this.crystalReportViewer1 = new CrystalDecisions.Windows.Forms.CrystalReportViewer();
-            this.cr_InMotNhanVIen1 = new BAITAPLONCHOT.cr_InMotNhanVIen();
+            this.cr_InMotHoaDon1 = new BAITAPLONCHOT.cr_InMotHoaDon();
             this.SuspendLayout();
             // 
             // crystalReportViewer1
@@ -41,20 +41,19 @@
             this.crystalReportViewer1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.crystalReportViewer1.Location = new System.Drawing.Point(0, 0);
             this.crystalReportViewer1.Name = "crystalReportViewer1";
-            this.crystalReportViewer1.ReportSource = this.cr_InMotNhanVIen1;
-            this.crystalReportViewer1.Size = new System.Drawing.Size(1403, 784);
+            this.crystalReportViewer1.ReportSource = this.cr_InMotHoaDon1;
+            this.crystalReportViewer1.Size = new System.Drawing.Size(883, 546);
             this.crystalReportViewer1.TabIndex = 0;
             // 
-            // InNhanVienTheoMa
+            // InHoaDonTheoMa
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1403, 784);
+            this.ClientSize = new System.Drawing.Size(883, 546);
             this.Controls.Add(this.crystalReportViewer1);
-            this.Name = "InNhanVienTheoMa";
-            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "InNhanVienTheoMa";
-            this.Load += new System.EventHandler(this.InNhanVienTheoMa_Load_1);
+            this.Name = "InHoaDonTheoMa";
+            this.Text = "InHoaDonTheoMa";
+            this.Load += new System.EventHandler(this.InHoaDonTheoMa_Load);
             this.ResumeLayout(false);
 
         }
@@ -62,6 +61,6 @@
         #endregion
 
         private CrystalDecisions.Windows.Forms.CrystalReportViewer crystalReportViewer1;
-        private cr_InMotNhanVIen cr_InMotNhanVIen1;
+        private cr_InMotHoaDon cr_InMotHoaDon1;
     }
 }

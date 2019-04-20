@@ -48,6 +48,7 @@ namespace BAITAPLONCHOT
         {
             hienthithongkenhanvien();
             thongkehoadon();
+            thongkekhachhang();
         }
         private void hienthithongkenhanvien()
         {
@@ -553,15 +554,15 @@ namespace BAITAPLONCHOT
             foreach (DataRow row in dtb_hd.Rows)
             {
                 soluonghoadon++;
-                    ListViewItem item = new ListViewItem(row["sMaHD"].ToString());
-                    item.SubItems.Add(row["sTenNV"].ToString());
-                    item.SubItems.Add(row["sTenKH"].ToString());
-                    DateTime date = DateTime.Parse(row["dNgayLap"].ToString());
-                    item.SubItems.Add(date.ToString("dd/MM/yyyy hh:ss"));
-                    item.SubItems.Add(row["dTuNgay"].ToString());
-                    item.SubItems.Add(row["dDenNgay"].ToString());
-                    item.SubItems.Add(row["fChiSoCu"].ToString());
-                    item.SubItems.Add(row["fChiSoMoi"].ToString());
+                ListViewItem item = new ListViewItem(row["sMaHD"].ToString());
+                item.SubItems.Add(row["sTenNV"].ToString());
+                item.SubItems.Add(row["sTenKH"].ToString());
+                DateTime date = DateTime.Parse(row["dNgayLap"].ToString());
+                item.SubItems.Add(date.ToString("dd/MM/yyyy hh:ss"));
+                item.SubItems.Add(row["dTuNgay"].ToString());
+                item.SubItems.Add(row["dDenNgay"].ToString());
+                item.SubItems.Add(row["fChiSoCu"].ToString());
+                item.SubItems.Add(row["fChiSoMoi"].ToString());
                 tongsoluongtieuthu = tongsoluongtieuthu + (Convert.ToInt32(row["fChiSoMoi"]));
                 chisotieuthu = (Convert.ToInt32(row["fChiSoMoi"])) - (Convert.ToInt32(row["fChiSoCu"]));
                 tongnuochoadon = tongnuochoadon + chisotieuthu;
@@ -592,9 +593,26 @@ namespace BAITAPLONCHOT
                 }
                 if (rdTatCaThoiGian.Checked == true && rdTuyChinhThanhTien.Checked == true)
                 {
-                    if (tutien < tongtien && dentien > tongtien)
+                    if (txtDenTien.Text == "" || txtDenTien.Text == "0")
                     {
-                        lvThongKeHoaDon.Items.Add(item);
+                        if (tutien <= tongtien)
+                        {
+                            lvThongKeHoaDon.Items.Add(item);
+                        }
+                    }
+                    if (txtTuTien.Text == "" || txtTuTien.Text == "0")
+                    {
+                        if (tongtien <= dentien)
+                        {
+                            lvThongKeHoaDon.Items.Add(item);
+                        }
+                    }
+                    if (txtTuTien.Text != "" && txtDenTien.Text != "" || txtTuTien.Text == "0" || txtDenTien.Text == "0")
+                    {
+                        if (tutien <= tongtien && dentien >= tongtien)
+                        {
+                            lvThongKeHoaDon.Items.Add(item);
+                        }
                     }
                 }
                 
@@ -629,5 +647,203 @@ namespace BAITAPLONCHOT
                 this.Close();
             }
         }
+        private void thongkekhachhang() {
+            try
+            {
+                int soluongkhachhang = 0;
+                float sonuoctieuthu = 0;
+                frmDangNhap.check();
+                SqlCommand command = new SqlCommand();
+                command.CommandType = CommandType.StoredProcedure;
+                command.CommandText = "sp_thongkekhachhang";
+                command.Connection = frmDangNhap.conn;
+                DataTable dtb = new DataTable();
+                SqlDataAdapter da = new SqlDataAdapter(command);
+                da.Fill(dtb);
+                lvThongKeNhanVien.Items.Clear();
+                foreach (DataRow row in dtb.Rows)
+                {
+                    soluongkhachhang = soluongkhachhang + 1;
+                    ListViewItem item = new ListViewItem(row["sMaKH"].ToString());
+                    item.SubItems.Add(row["sTenKH"].ToString());
+                    item.SubItems.Add(row["dNgaySinh"].ToString());
+                    item.SubItems.Add(row["sDiaChi"].ToString());
+                    item.SubItems.Add(row["sGioiTinh"].ToString());
+                    item.SubItems.Add(row["sSDT"].ToString());
+                    item.SubItems.Add(row["sMaCongTo"].ToString());
+                    item.SubItems.Add((bool)(row["bTrangThai"]) == true ? "Đang sử dụng" : "Đã dừng sd");
+                    
+                    //if (System.DbNull.Value(Convert.ToInt32(row["SoNuocDaDung"])))
+                    //{
+                    //    item.SubItems.Add("0");
+                    //}
+                    //else
+                    //{
+                    if(row["SoNuocDaDung"].ToString() != ""){
+                        item.SubItems.Add(row["SoNuocDaDung"].ToString());
+                        sonuoctieuthu = sonuoctieuthu + Convert.ToInt32(row["SoNuocDaDung"]);
+                    }
+                    else
+                    {
+                        item.SubItems.Add("0");
+                    }
+                    //item.SubItems.Add(row["SoNuocDaDung"].ToString() != "" ? row["SoNuocDaDung"].ToString() : "0");
+                    //}
+                    SoLuongKhachHang.Text = soluongkhachhang.ToString();
+                   khSoNuocTieuThu.Text = sonuoctieuthu.ToString();
+                    lvThongKeKhachHang.Items.Add(item);
+                }
+            }
+
+                catch(Exception k){
+
+                }
+           }
+        private string loccheckboxkh()
+        {
+            string query = "";
+            if (rdNamKH.Checked == true && rdNuKH.Checked == true)
+            {
+                if (rdKhongSuDungKH.Checked == true && rdDangSuDungKH.Checked == true)
+                {
+                    query = "1 = 1";
+                }
+            }
+            if (rdNamKH.Checked == true && rdNuKH.Checked == false)
+            {
+                if (rdKhongSuDungKH.Checked == true && rdDangSuDungKH.Checked == false)
+                {
+                    query = "sGioiTinh = N'Nam' and tblKhachHang.bTrangThai = 0";
+                }
+                if (rdKhongSuDungKH.Checked == false && rdDangSuDungKH.Checked == true)
+                {
+                    query = "sGioiTinh = N'Nam' and tblKhachHang.bTrangThai = 1";
+                }
+                if (rdKhongSuDungKH.Checked == true && rdDangSuDungKH.Checked == true)
+                {
+                    query = "sGioiTinh = N'Nam'";
+                }
+                if (rdKhongSuDungKH.Checked == false && rdDangSuDungKH.Checked == false)
+                {
+
+                }
+
+            }
+            if (rdNamKH.Checked == false && rdNuKH.Checked == true)
+            {
+                if (rdKhongSuDungKH.Checked == true && rdDangSuDungKH.Checked == false)
+                {
+                    query = "sGioiTinh = N'Nữ' and tblKhachHang.bTrangThai = 0";
+                }
+                if (rdKhongSuDungKH.Checked == false && rdDangSuDungKH.Checked == true)
+                {
+                    query = "sGioiTinh = N'Nữ' and tblKhachHang.bTrangThai = 1";
+                }
+                if (rdKhongSuDungKH.Checked == true && rdDangSuDungKH.Checked == true)
+                {
+                    query = "sGioiTinh = N'Nữ'";
+                }
+                if (rdKhongSuDungKH.Checked == false && rdDangSuDungKH.Checked == false)
+                {
+
+                }
+            }
+            if (rdKhongSuDungKH.Checked == true && rdDangSuDungKH.Checked == false)
+            {
+                if (rdNamKH.Checked == true && rdNuKH.Checked == false)
+                {
+                    query = "sGioiTinh = N'Nam' and tblKhachHang.bTrangThai = 0";
+                }
+                if (rdNamKH.Checked == false && rdNuKH.Checked == true)
+                {
+                    query = "sGioiTinh = N'Nữ' and tblKhachHang.bTrangThai = 0";
+                }
+                if (rdNamKH.Checked == true && rdNuKH.Checked == true)
+                {
+                    query = "tblKhachHang.bTrangThai = 0";
+                }
+                if (rdNamKH.Checked == false && rdNuKH.Checked == false)
+                {
+
+                }
+            }
+            if (rdKhongSuDungKH.Checked == false && rdDangSuDungKH.Checked == true)
+            {
+                if (rdNamKH.Checked == true && rdNuKH.Checked == false)
+                {
+                    query = "sGioiTinh = N'Nam' and tblKhachHang.bTrangThai = 1";
+                }
+                if (rdNamKH.Checked == false && rdNuKH.Checked == true)
+                {
+                    query = "sGioiTinh = N'Nữ' and tblKhachHang.bTrangThai = 1";
+                }
+                if (rdNamKH.Checked == true && rdNuKH.Checked == true)
+                {
+                    query = "tblKhachHang.bTrangThai = 1";
+                }
+                if (rdNamKH.Checked == false && rdNuKH.Checked == false)
+                {
+
+                }
+            }
+            return query;
+        }
+        
+        private void tabPage2_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            string truyvan = loccheckboxkh();
+           // MessageBox.Show(truyvan.ToString());
+            try
+            {
+                int soluongkhachhang = 0;
+                float sonuoctieuthu = 0;
+                
+                frmDangNhap.check();
+                SqlCommand command = new SqlCommand();
+                command.CommandType = CommandType.StoredProcedure;
+                command.CommandText = "sp_lockhachhang";
+                command.Connection = frmDangNhap.conn;
+                command.Parameters.Add("@action", truyvan);
+                DataTable dtb = new DataTable();
+                SqlDataAdapter da = new SqlDataAdapter(command);
+                da.Fill(dtb);
+                lvThongKeKhachHang.Items.Clear();
+
+                foreach (DataRow row in dtb.Rows)
+                {
+                    soluongkhachhang = soluongkhachhang + 1;
+                    ListViewItem item = new ListViewItem(row["sMaKH"].ToString());
+                    item.SubItems.Add(row["sTenKH"].ToString());
+                    item.SubItems.Add(row["dNgaySinh"].ToString());
+                    item.SubItems.Add(row["sDiaChi"].ToString());
+                    item.SubItems.Add(row["sGioiTinh"].ToString());
+                    item.SubItems.Add(row["sSDT"].ToString());
+                    item.SubItems.Add(row["sMaCongTo"].ToString());
+                    item.SubItems.Add((bool)(row["bTrangThai"]) == true ? "Đang sử dụng" : "Đã dừng sd");
+                    if (row["SoNuocDaDung"].ToString() != "")
+                    {
+                        item.SubItems.Add(row["SoNuocDaDung"].ToString());
+                        sonuoctieuthu = sonuoctieuthu + Convert.ToInt32(row["SoNuocDaDung"]);
+                    }
+                    else
+                    {
+                        item.SubItems.Add("0");
+                    }
+                    SoLuongKhachHang.Text = soluongkhachhang.ToString();
+                    khSoNuocTieuThu.Text = sonuoctieuthu.ToString();
+                    lvThongKeKhachHang.Items.Add(item);
+                }
+            }
+            catch (Exception p)
+            {
+                MessageBox.Show(p.ToString());
+            }
+        }
+
     }
 }

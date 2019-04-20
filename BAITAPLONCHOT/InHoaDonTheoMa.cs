@@ -7,28 +7,25 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using System.Data.SqlClient;
-using System.Configuration;
 using CrystalDecisions.CrystalReports.Engine;
 using System.Web.UI.WebControls;
 using CrystalDecisions.Shared;
 
-
 namespace BAITAPLONCHOT
 {
-    public partial class InKhachHangTheoMa : Form
+    public partial class InHoaDonTheoMa : Form
     {
-        public InKhachHangTheoMa()
+        public InHoaDonTheoMa()
         {
             InitializeComponent();
         }
-        string makh;
-        public InKhachHangTheoMa(string ma)
+        string mahd;
+        public InHoaDonTheoMa(string ma)
         {
             InitializeComponent();
-            makh = ma;
+            mahd = ma;
         }
-        private void crystalReportViewer1_Load(object sender, EventArgs e)
+        private void InHoaDonTheoMa_Load(object sender, EventArgs e)
         {
             hiendein();
         }
@@ -40,7 +37,7 @@ namespace BAITAPLONCHOT
             TableLogOnInfos crtableLogoninfos = new TableLogOnInfos();
             TableLogOnInfo crtableLogoninfo = new TableLogOnInfo();
             ConnectionInfo crConnectionInfo = new ConnectionInfo();
-            rpt.Load(@"C:\Users\hungh\Desktop\fit\cxap\BAITAPLONCHOT\cr_InMotKhachHang.rpt");
+            rpt.Load(@"C:\Users\hungh\Desktop\fit\cxap\BAITAPLONCHOT\cr_InMotHoaDon.rpt");
             Tables CrTables;
             CrTables = rpt.Database.Tables;
             crConnectionInfo.IntegratedSecurity = true;
@@ -51,13 +48,8 @@ namespace BAITAPLONCHOT
                 CrTable.ApplyLogOnInfo(crtableLogoninfo);
             }
             crystalReportViewer1.Refresh();
-            rpt.SetParameterValue("@makh", makh);
+            rpt.SetParameterValue("@mahd", mahd);
             crystalReportViewer1.ReportSource = rpt;
-        }
-
-        private void InKhachHangTheoMa_Load(object sender, EventArgs e)
-        {
-
         }
     }
 }

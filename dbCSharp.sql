@@ -466,7 +466,7 @@ as
 begin
 	if(@action = N'insert')
 		begin
-			insert into tblHoaDon
+			insert into tblHoaDon(sMaHD,sMaKH,sMaNV,dNgayLap,dTuNgay,dDenNgay,fChiSoCu,fChiSoMoi,fThueGTGT,fTongTien,bTrangThai)
 			values(dbo.fcgetMaHD(),@makh,@manv,@ngaylap,@tungay,@denngay,@chisocu,@chisomoi,@thuegtgt,@tongtien,1)
 		end
 	if(@action = 'selectall')
@@ -563,7 +563,27 @@ begin
 	set @query = N'select * from tblNhanVien where ' + @action
 	execute(@query)
 end
-
+-----------------
+alter proc sp_lockhachhang
+@action nvarchar(255)
+as
+	declare @query nvarchar(1000)
+begin
+	set @query = N'select tblKhachHang.sMaKH, sTenKH, dNgaySinh, sDiaChi, sGioiTinh, sSDT, sMaCongTo, tblKhachHang.bTrangThai, sum(tblHoaDon.fChiSoMoi) as SoNuocDaDung
+	from tblKhachHang
+	left join tblHoaDon on tblKhachHang.sMaKH = tblHoaDon.sMaKH 
+	group by tblKhachHang.sMaKH, sTenKH, dNgaySinh, sDiaChi, sGioiTinh, sSDT, sMaCongTo, tblKhachHang.bTrangThai 
+	having ' + @action
+	execute(@query)
+end
+exec sp_lockhachhang @action = '1=1'
+exec sp_lockhachhang @action = 'sGioiTinh = N''Nam'''
+-------------------
+create proc sp_lockhachhang
+as
+begin
+	
+end
 --@query = "sGioiTinh = 'Nam'"
 -- query ben c# sẽ tương tự như trên
 exec sp_locnhanvien @action = 'sGioiTinh = N''Nam'''
@@ -584,6 +604,16 @@ begin
 	and tblKhachHang.sMaKH = tblHoaDon.sMaKH and tblHoaDon.sMaNV = tblNhanVien.sMaNV
 	order by sMaHD DESC
 end
+--thống kê khách hàng
+alter proc sp_thongkekhachhang
+as
+begin
+	select tblKhachHang.sMaKH, sTenKH, dNgaySinh, sDiaChi, sGioiTinh, sSDT, sMaCongTo, tblKhachHang.bTrangThai, sum(tblHoaDon.fChiSoMoi) as SoNuocDaDung
+	from tblKhachHang
+	left join tblHoaDon on tblKhachHang.sMaKH = tblHoaDon.sMaKH
+	group by tblKhachHang.sMaKH, sTenKH, dNgaySinh, sDiaChi, sGioiTinh, sSDT, sMaCongTo, tblKhachHang.bTrangThai
+end
+exec sp_thongkekhachhang
 --thống kê hóa đơn
 select *from tblHoaDon where dNgayLap >= '2019-04-17'
 alter proc sp_lochoadon
@@ -597,6 +627,7 @@ begin
 			tblHoaDon.sMaNV = tblNhanVien.sMaNV and ' + @action
 	execute(@query)
 end
+
 
 exec sp_lochoadon @action = 'dNgayLap >= ''2019-04-17'' and 1=1'
 --------------------------------------------CRYSTAL REPORT
@@ -634,3 +665,16 @@ begin
 	select * from tblKhachHang
 	where sMaKH = @makh
 end
+create proc cr_hoadontheoma
+@mahd char(10)
+as
+begin
+	select sMaHD, sTenNV, sTenKH, dNgayLap, dTuNgay, dDenNgay, fChiSoCu, fChiSoMoi, fTongTien
+	from tblHoaDon,tblNhanVien, tblKhachHang
+	where tblHoaDon.bTrangThai = 1 
+	and tblKhachHang.sMaKH = tblHoaDon.sMaKH 
+	and tblNhanVien.sMaNV = tblHoaDon.sMaNV 
+	and sMaHD = @mahd
+end
+select * from tblHoaDon
+exec cr_hoadontheoma  @mahd = 'HD00000004'

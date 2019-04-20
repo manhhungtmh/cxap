@@ -20,3 +20,4 @@ C:\Users\hungh\Desktop\fit\cxap\BAITAPLONCHOT\obj\Release\BAITAPLONCHOT.DanhSach
 C:\Users\hungh\Desktop\fit\cxap\BAITAPLONCHOT\obj\Release\BAITAPLONCHOT.InNhanVienTheoMa.resources
 C:\Users\hungh\Desktop\fit\cxap\BAITAPLONCHOT\obj\Release\BAITAPLONCHOT.InKhachHangTheoMa.resources
 C:\Users\hungh\Desktop\fit\cxap\BAITAPLONCHOT\obj\Release\BAITAPLONCHOT.DanhSachHoaDon.resources
+C:\Users\hungh\Desktop\fit\cxap\BAITAPLONCHOT\obj\Release\BAITAPLONCHOT.InHoaDonTheoMa.resources

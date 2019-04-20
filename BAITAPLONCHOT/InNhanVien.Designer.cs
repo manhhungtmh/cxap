@@ -50,17 +50,18 @@
             this.crystalReportViewer2.Location = new System.Drawing.Point(0, 0);
             this.crystalReportViewer2.Name = "crystalReportViewer2";
             this.crystalReportViewer2.ReportSource = this.nhanvien1;
-            this.crystalReportViewer2.Size = new System.Drawing.Size(1187, 568);
+            this.crystalReportViewer2.Size = new System.Drawing.Size(1403, 784);
             this.crystalReportViewer2.TabIndex = 1;
             // 
             // InNhanVien
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1187, 568);
+            this.ClientSize = new System.Drawing.Size(1403, 784);
             this.Controls.Add(this.crystalReportViewer2);
             this.Controls.Add(this.panel1);
             this.Name = "InNhanVien";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "InNhanVien";
             this.Load += new System.EventHandler(this.InNhanVien_Load);
             this.ResumeLayout(false);

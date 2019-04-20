@@ -55,5 +55,10 @@ namespace BAITAPLONCHOT
             rpt.SetParameterValue("@action","selectone");
             crystalReportViewer1.ReportSource = rpt;
         }
+
+        private void crystalReportViewer1_Load(object sender, EventArgs e)
+        {
+
+        }
     }
 }
