@@ -49,6 +49,7 @@ namespace BAITAPLONCHOT
             hienthithongkenhanvien();
             thongkehoadon();
             thongkekhachhang();
+            hienthithongkenhanvien();
         }
         private void hienthithongkenhanvien()
         {
@@ -641,11 +642,14 @@ namespace BAITAPLONCHOT
         {
             if (MessageBox.Show("Bạn chắc chắn muốn đăng xuất hỏi hệ không ?", "Thông báo", MessageBoxButtons.YesNo) == DialogResult.Yes)
             {
+                System.Threading.Thread t = new System.Threading.Thread(new System.Threading.ThreadStart(OpenLoginForm));
                 Application.Exit();
-                frmDangNhap frm = new frmDangNhap();
-                frm.Show();
-                this.Close();
+                t.Start();
             }
+        }
+        public static void OpenLoginForm()
+        {
+            Application.Run(new frmDangNhap()); //run your new form
         }
         private void thongkekhachhang() {
             try

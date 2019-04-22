@@ -105,13 +105,13 @@ end
 --insert to tblss
 alter proc sp_session
 @ma char(10),
-@matkhau varchar(100),
+@matkhau char(100),
 @quyen int
 as
 begin
 	delete from tblss where 1=1
-	insert into tblss 
-	values(1,@ma,@matkhau,@quyen)
+	insert into tblss
+	values(1,@ma,@quyen,@matkhau)
 end
 exec sp_session @ma = NV00000000,@quyen =1
 --select to tblss
@@ -128,9 +128,7 @@ begin
    declare @MaNV varchar(10)
    declare @MaxMaNV varchar(10)
    declare @Max float
-
    select @MaxMaNV=MAX(sMaNV) from tblNhanVien
-
    if exists (select sMaNV from tblNhanVien)
 						set @Max = CONVERT(float, SUBSTRING(@MaxMaNV,3,8)) + 1
 			else
@@ -240,7 +238,7 @@ begin
 	 where @tentaikhoan = sMaTK and @matkhau = sMatKhau and tblNhanVien.bTrangThai !=0 
 end
 select* from tblNhanVien
-exec sp_checkdangnhap @tentaikhoan ='NV00000011', @matkhau = 1
+exec sp_checkdangnhap @tentaikhoan ='NV00000011', @matkhau = 'a'
 --get taikhoan
 create proc sp_gettaikhoan
 @tentaikhoan char(10)

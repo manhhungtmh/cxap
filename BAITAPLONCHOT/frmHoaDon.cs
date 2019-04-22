@@ -23,19 +23,16 @@ namespace BAITAPLONCHOT
 
         private void textBox5_TextChanged(object sender, EventArgs e)
         {
-            if(txtChiSoCu.Text!=""&&txtChiSoMoi.Text!="")
+            try
             {
-                int chisocu = 0, chisomoi = 0, chisotieuthu = 0;
-                chisocu = int.Parse(txtChiSoCu.Text);
-                chisomoi = int.Parse(txtChiSoMoi.Text);
-                chisotieuthu = chisomoi - chisocu;
-                if(chisotieuthu<0)
+                if (txtChiSoCu.Text != "" && txtChiSoMoi.Text != "")
                 {
-                    MessageBox.Show("Chỉ số mới phải lớn hơn chỉ số cũ", "Thông báo",MessageBoxButtons.OK,MessageBoxIcon.Warning);
-                }
-                else
-                {
-                    
+                    int chisocu = 0, chisomoi = 0, chisotieuthu = 0;
+                    chisocu = int.Parse(txtChiSoCu.Text);
+                    chisomoi = int.Parse(txtChiSoMoi.Text);
+                    chisotieuthu = chisomoi - chisocu;
+
+
                     float ttkhongthue = 0, ttthue = 0, thue = 0;
                     thue = float.Parse(txtThueGTGT.Text);
                     txtChiSoTieuThu.Text = chisotieuthu.ToString();
@@ -43,7 +40,12 @@ namespace BAITAPLONCHOT
                     ttkhongthue = tongtien(chisotieuthu);
                     ttthue = ttkhongthue + (ttkhongthue * thue);
                     txtTongTien.Text = ttthue.ToString();
+
                 }
+            }
+            catch (Exception m)
+            {
+
             }
 
         }
@@ -138,12 +140,12 @@ namespace BAITAPLONCHOT
             DataTable dtb = new DataTable();
             SqlDataAdapter da = new SqlDataAdapter(command);
             da.Fill(dtb);
-
+            //DateTime.Parse(row["dNgayLap"].ToString()).ToString("MM/dd/yyyy")
             foreach (DataRow row in dtb.Rows)
             {
                 ListViewItem item = new ListViewItem(row["sMaHD"].ToString());
                 item.SubItems.Add(row["sTenNV"].ToString());
-                item.SubItems.Add(row["sMaKH"].ToString());
+                item.SubItems.Add(row["sTenKH"].ToString());
                 item.SubItems.Add(row["dNgayLap"].ToString());
                 item.SubItems.Add(row["dTuNgay"].ToString());
                 item.SubItems.Add(row["dDenNgay"].ToString());
@@ -367,7 +369,7 @@ namespace BAITAPLONCHOT
                 chisotieuthu = chisomoi - chisocu;
                 if (chisotieuthu < 0)
                 {
-                    MessageBox.Show("Chỉ số mới phải lớn hơn chỉ số cũ", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                   // MessageBox.Show("Chỉ số mới phải lớn hơn chỉ số cũ", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 }
                 else
                 {
@@ -397,47 +399,66 @@ namespace BAITAPLONCHOT
         }
         private void btnLuu_Click(object sender, EventArgs e)
         {
-            
-            if (txtMaHD.Text == ""|| txtMaKH.Text==""||txtChiSoCu.Text==""||txtChiSoMoi.Text ==""||txtTongTien.Text=="")
-            {
-                MessageBox.Show("Vui lòng nhập đầy đủ thông tin của hóa đơn");
-            }
-            else
-            {
-                float thue = 0;
-                thue = float.Parse(txtThueGTGT.Text);
-                frmDangNhap.check();
-                SqlCommand command = new SqlCommand();
-                command.CommandType = CommandType.StoredProcedure;
-                command.CommandText = "sp_hoadon";
-                command.Connection = frmDangNhap.conn;
-                command.Parameters.Add("@action", "insert");
-                //command.Parameters.Add("@mahd", txtMaHD.Text);
-                command.Parameters.Add("@makh", txtMaKH.Text);
-                command.Parameters.Add("@manv", txtMaNV.Text);
-                command.Parameters.Add("@ngaylap", Convert.ToDateTime(DateTime.Now.ToString()));
-                DateTime first = GetFirstDayOfMonth(dNgayLap.Value);
-                DateTime last = GetLastDayOfMonth(dNgayLap.Value);
-                command.Parameters.Add("@tungay", first);
-                command.Parameters.Add("@denngay", last);
-                command.Parameters.Add("@chisocu", Convert.ToInt32(txtChiSoCu.Text));
-                command.Parameters.Add("@chisomoi", Convert.ToInt32(txtChiSoMoi.Text));
-                command.Parameters.Add("@thuegtgt", Math.Round(thue, 1));
-                command.Parameters.Add("@tongtien", txtTongTien.Text);
-                int ret = command.ExecuteNonQuery();
-                if (ret > 0)
-                {
-                    MessageBox.Show("Thêm thành công");
-                }
 
+            try
+            {
+                int chisocu = 0, chisomoi = 0, chisotieuthu = 0;
+                chisocu = int.Parse(txtChiSoCu.Text);
+                chisomoi = int.Parse(txtChiSoMoi.Text);
+                chisotieuthu = chisomoi - chisocu;
+                if (chisotieuthu < 0)
+                {
+                    MessageBox.Show("Chỉ số mới phải lớn hơn chỉ số cũ", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                }
                 else
                 {
-                    MessageBox.Show("Thêm thất bại");
+                    if (txtMaHD.Text == "" || txtMaKH.Text == "" || txtChiSoCu.Text == "" || txtChiSoMoi.Text == "" || txtTongTien.Text == "")
+                    {
+                        MessageBox.Show("Vui lòng nhập đầy đủ thông tin của hóa đơn");
+                    }
+                    else
+                    {
+                        float thue = 0;
+                        thue = float.Parse(txtThueGTGT.Text);
+                        frmDangNhap.check();
+                        SqlCommand command = new SqlCommand();
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.CommandText = "sp_hoadon";
+                        command.Connection = frmDangNhap.conn;
+                        command.Parameters.Add("@action", "insert");
+                        //command.Parameters.Add("@mahd", txtMaHD.Text);
+                        command.Parameters.Add("@makh", txtMaKH.Text);
+                        command.Parameters.Add("@manv", txtMaNV.Text);
+                        command.Parameters.Add("@ngaylap", Convert.ToDateTime(DateTime.Now.ToString()));
+                        DateTime first = GetFirstDayOfMonth(dNgayLap.Value);
+                        DateTime last = GetLastDayOfMonth(dNgayLap.Value);
+                        command.Parameters.Add("@tungay", first);
+                        command.Parameters.Add("@denngay", last);
+                        command.Parameters.Add("@chisocu", Convert.ToInt32(txtChiSoCu.Text));
+                        command.Parameters.Add("@chisomoi", Convert.ToInt32(txtChiSoMoi.Text));
+                        command.Parameters.Add("@thuegtgt", Math.Round(thue, 1));
+                        command.Parameters.Add("@tongtien", txtTongTien.Text);
+                        int ret = command.ExecuteNonQuery();
+                        if (ret > 0)
+                        {
+                            MessageBox.Show("Thêm thành công");
+                        }
+
+                        else
+                        {
+                            MessageBox.Show("Thêm thất bại");
+                        }
+                        frmDangNhap.conn.Close();
+                        lvHoaDon.Items.Clear();
+                        frmHoaDon_Load(sender, e);
+                    }
                 }
-                frmDangNhap.conn.Close();
-                lvHoaDon.Items.Clear();
-                frmHoaDon_Load(sender, e);
             }
+            catch (Exception b)
+            {
+                MessageBox.Show("Vui lòng điềm đầy đủ thông tin của hóa đơn !!!");
+            }
+            
         }
 
         private void btnXoa_Click(object sender, EventArgs e)
@@ -483,48 +504,60 @@ namespace BAITAPLONCHOT
         {
             if (txtMaHD.Text == "" || txtMaKH.Text == "" || txtChiSoCu.Text == "" || txtChiSoMoi.Text == "" || txtTongTien.Text == "")
             {
-                MessageBox.Show("Vui lòng chọn hóa đơn muốn sửa");
+                MessageBox.Show("Vui lòng điền đầy đủ thông tin trên hóa đơn !!!");
             }
             else
             {
-                if (MessageBox.Show("Bạn chắc chắn muốn sửa khách hàng này không ?", "Thông báo", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.Yes)
+                int chisocu = 0, chisomoi = 0, chisotieuthu = 0;
+                chisocu = int.Parse(txtChiSoCu.Text);
+                chisomoi = int.Parse(txtChiSoMoi.Text);
+                chisotieuthu = chisomoi - chisocu;
+                if (chisotieuthu < 0)
                 {
-                    float thue = 0;
-                    string manv = frmInformation.get_manv();
-                    thue = float.Parse(txtThueGTGT.Text);
-                    frmDangNhap.check();
-                    SqlCommand command = new SqlCommand();
-                    command.CommandType = CommandType.StoredProcedure;
-                    command.CommandText = "sp_hoadon";
-                    command.Connection = frmDangNhap.conn;
-                    command.Parameters.Add("@action", "update");
-                    command.Parameters.Add("@mahd", txtMaHD.Text);
-                    command.Parameters.Add("@makh", txtMaKH.Text);
-                    command.Parameters.Add("@manv", manv);
-                    command.Parameters.Add("@ngaylap", Convert.ToDateTime(DateTime.Now.ToString()));
-                    DateTime first = GetFirstDayOfMonth(dNgayLap.Value);
-                    DateTime last = GetLastDayOfMonth(dNgayLap.Value);
-                    command.Parameters.Add("@tungay", first);
-                    command.Parameters.Add("@denngay", last);
-                    command.Parameters.Add("@chisocu", Convert.ToInt32(txtChiSoCu.Text));
-                    command.Parameters.Add("@chisomoi", Convert.ToInt32(txtChiSoMoi.Text));
-                    command.Parameters.Add("@thuegtgt", Math.Round(thue, 1));
-                    command.Parameters.Add("@tongtien", txtTongTien.Text);
-
-                    int ret = command.ExecuteNonQuery();
-                    if (ret > 0)
-                    {
-                        MessageBox.Show("Sửa thành công");
-                    }
-
-                    else
-                    {
-                        MessageBox.Show("Có lỗi khi sửa dữ liệu");
-                    }
-                    frmDangNhap.conn.Close();
-                    lvHoaDon.Items.Clear();
-                    frmHoaDon_Load(sender, e);
+                    MessageBox.Show("Chỉ số mới phải lớn hơn chỉ số cũ", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 }
+                else
+                {
+                    if (MessageBox.Show("Bạn chắc chắn muốn sửa khách hàng này không ?", "Thông báo", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.Yes)
+                    {
+                        float thue = 0;
+                        string manv = frmInformation.get_manv();
+                        thue = float.Parse(txtThueGTGT.Text);
+                        frmDangNhap.check();
+                        SqlCommand command = new SqlCommand();
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.CommandText = "sp_hoadon";
+                        command.Connection = frmDangNhap.conn;
+                        command.Parameters.Add("@action", "update");
+                        command.Parameters.Add("@mahd", txtMaHD.Text);
+                        command.Parameters.Add("@makh", txtMaKH.Text);
+                        command.Parameters.Add("@manv", manv);
+                        command.Parameters.Add("@ngaylap", Convert.ToDateTime(DateTime.Now.ToString()));
+                        DateTime first = GetFirstDayOfMonth(dNgayLap.Value);
+                        DateTime last = GetLastDayOfMonth(dNgayLap.Value);
+                        command.Parameters.Add("@tungay", first);
+                        command.Parameters.Add("@denngay", last);
+                        command.Parameters.Add("@chisocu", Convert.ToInt32(txtChiSoCu.Text));
+                        command.Parameters.Add("@chisomoi", Convert.ToInt32(txtChiSoMoi.Text));
+                        command.Parameters.Add("@thuegtgt", Math.Round(thue, 1));
+                        command.Parameters.Add("@tongtien", txtTongTien.Text);
+
+                        int ret = command.ExecuteNonQuery();
+                        if (ret > 0)
+                        {
+                            MessageBox.Show("Sửa thành công");
+                        }
+
+                        else
+                        {
+                            MessageBox.Show("Có lỗi khi sửa dữ liệu");
+                        }
+                        frmDangNhap.conn.Close();
+                        lvHoaDon.Items.Clear();
+                        frmHoaDon_Load(sender, e);
+                    }
+                }
+                
             }
         }
 
@@ -573,9 +606,41 @@ namespace BAITAPLONCHOT
         {
             if (MessageBox.Show("Bạn chắc chắn muốn đăng xuất hỏi hệ không ?", "Thông báo", MessageBoxButtons.YesNo) == DialogResult.Yes)
             {
-                frmDangNhap frm = new frmDangNhap();
-                frm.Show();
-                this.Close();
+                System.Threading.Thread t = new System.Threading.Thread(new System.Threading.ThreadStart(OpenLoginForm));
+                Application.Exit();
+                t.Start();
+            }
+        }
+        public static void OpenLoginForm()
+        {
+            Application.Run(new frmDangNhap()); //run your new form
+        }
+
+        private void txtThueGTGT_TextChanged(object sender, EventArgs e)
+        {
+            try
+            {
+                if (txtChiSoCu.Text != "" && txtChiSoMoi.Text != "")
+                {
+                    int chisocu = 0, chisomoi = 0, chisotieuthu = 0;
+                    chisocu = int.Parse(txtChiSoCu.Text);
+                    chisomoi = int.Parse(txtChiSoMoi.Text);
+                    chisotieuthu = chisomoi - chisocu;
+
+
+                    float ttkhongthue = 0, ttthue = 0, thue = 0;
+                    thue = float.Parse(txtThueGTGT.Text);
+                    txtChiSoTieuThu.Text = chisotieuthu.ToString();
+                    //Lấy tổng tiền
+                    ttkhongthue = tongtien(chisotieuthu);
+                    ttthue = ttkhongthue + (ttkhongthue * thue);
+                    txtTongTien.Text = ttthue.ToString();
+
+                }
+            }
+            catch (Exception l)
+            {
+                //MessageBox.Show(Vui l);
             }
         }
 

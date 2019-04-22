@@ -89,7 +89,7 @@ namespace BAITAPLONCHOT
                 MessageBox.Show(e.ToString());
             }
         }
-        private void luu_ss(string ma, string quyen, int matkhau)
+        private void luu_ss(string ma, string matkhau, int quyen)
         {
             check();
             SqlCommand command = new SqlCommand();
@@ -155,21 +155,21 @@ namespace BAITAPLONCHOT
 
         }
 
-        private void checkBox1_KeyDown(object sender, KeyEventArgs e)
-        {
-            if (e.KeyCode == Keys.Enter || e.KeyCode == Keys.Return)
-            {
+        //private void checkBox1_KeyDown(object sender, KeyEventArgs e)
+        //{
+        //    if (e.KeyCode == Keys.Enter || e.KeyCode == Keys.Return)
+        //    {
 
-                checkBox1.Checked = true;
+        //        checkBox1.Checked = true;
 
-            }
-        }
+        //    }
+        //}
 
         private void frmDangNhap_FormClosing(object sender, FormClosingEventArgs e)
         {
 
 
-            if (Application.OpenForms.Count == 2|| Application.OpenForms.Count == 1)
+            if (Application.OpenForms.Count == 2 || Application.OpenForms.Count == 1)
             {
                 if (MessageBox.Show("Bạn có muốn thoát không?",
                                "Thông báo",

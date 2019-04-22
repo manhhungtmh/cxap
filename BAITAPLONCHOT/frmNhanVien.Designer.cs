@@ -52,7 +52,6 @@
             this.columnHeader5 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnHeader6 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnHeader7 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.columnHeader8 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnHeader9 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.label2 = new System.Windows.Forms.Label();
@@ -243,7 +242,6 @@
             this.columnHeader5,
             this.columnHeader6,
             this.columnHeader7,
-            this.columnHeader8,
             this.columnHeader9});
             this.lvNhanVien.FullRowSelect = true;
             this.lvNhanVien.GridLines = true;
@@ -264,7 +262,7 @@
             // columnHeader2
             // 
             this.columnHeader2.Text = "Tên NV";
-            this.columnHeader2.Width = 100;
+            this.columnHeader2.Width = 140;
             // 
             // columnHeader3
             // 
@@ -290,10 +288,6 @@
             // 
             this.columnHeader7.Text = "Chức vụ";
             this.columnHeader7.Width = 80;
-            // 
-            // columnHeader8
-            // 
-            this.columnHeader8.Text = "HSL";
             // 
             // columnHeader9
             // 
@@ -543,7 +537,6 @@
         private System.Windows.Forms.ColumnHeader columnHeader5;
         private System.Windows.Forms.ColumnHeader columnHeader6;
         private System.Windows.Forms.ColumnHeader columnHeader7;
-        private System.Windows.Forms.ColumnHeader columnHeader8;
         private System.Windows.Forms.ColumnHeader columnHeader9;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Button button5;

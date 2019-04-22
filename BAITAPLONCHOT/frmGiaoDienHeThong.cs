@@ -58,11 +58,9 @@ namespace BAITAPLONCHOT
                 {
                     MessageBox.Show("Bạn không có quyền truy cập vào chức năng này !");
                 }
-                
             }
             reader.Close();
         }
-
         private void frmGiaoDienHeThong_Load(object sender, EventArgs e)
         {
 
@@ -70,12 +68,16 @@ namespace BAITAPLONCHOT
 
         private void pictureBox5_Click(object sender, EventArgs e)
         {
-            if (MessageBox.Show("Bạn chắc chắn muốn đăng xuất hỏi hệ không ?", "Thông báo", MessageBoxButtons.YesNo) == DialogResult.Yes)
-            {
-                frmDangNhap frm = new frmDangNhap();
-                frm.Show();
-                this.Close();
-            }
+                if (MessageBox.Show("Bạn chắc chắn muốn đăng xuất hỏi hệ không ?", "Thông báo", MessageBoxButtons.YesNo) == DialogResult.Yes)
+                {
+                    System.Threading.Thread t = new System.Threading.Thread(new System.Threading.ThreadStart(OpenLoginForm));
+                    Application.Exit();
+                    t.Start();
+                }
+        }
+        public static void OpenLoginForm()
+        {
+            Application.Run(new frmDangNhap()); //run your new form
         }
 
         private void pictureBox1_Click(object sender, EventArgs e)

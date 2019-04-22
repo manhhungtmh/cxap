@@ -62,7 +62,7 @@ namespace BAITAPLONCHOT
                 string gioitinh = reader.GetString(4);
                 string sdt = reader.GetString(5);
                 string chucvu = reader.GetString(6);
-                double hsl = reader.GetDouble(7);
+                //double hsl = reader.GetDouble(7);
                 Boolean trangthai = reader.GetBoolean(8);
                 ListViewItem lvi = new ListViewItem(manv + "");
                 lvi.SubItems.Add(tennv);
@@ -71,7 +71,7 @@ namespace BAITAPLONCHOT
                 lvi.SubItems.Add(gioitinh);
                 lvi.SubItems.Add(sdt);
                 lvi.SubItems.Add(chucvu);
-                lvi.SubItems.Add(hsl + "");
+                //lvi.SubItems.Add(hsl + "");
                 lvi.SubItems.Add(trangthai ? "Đang đi làm" : "Đã nghỉ");
                 lvNhanVien.Items.Add(lvi);
             }
@@ -422,10 +422,15 @@ namespace BAITAPLONCHOT
         {
             if (MessageBox.Show("Bạn chắc chắn muốn đăng xuất hỏi hệ không ?", "Thông báo", MessageBoxButtons.YesNo) == DialogResult.Yes)
             {
-                frmDangNhap frm = new frmDangNhap();
-                frm.Show();
-                this.Close();
+                System.Threading.Thread t = new System.Threading.Thread(new System.Threading.ThreadStart(OpenLoginForm));
+                Application.Exit();
+                t.Start();
             }
         }
+        public static void OpenLoginForm()
+        {
+            Application.Run(new frmDangNhap()); //run your new form
+        }
     }
+
 }

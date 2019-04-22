@@ -378,10 +378,14 @@ namespace BAITAPLONCHOT
         {
             if (MessageBox.Show("Bạn chắc chắn muốn đăng xuất hỏi hệ không ?", "Thông báo", MessageBoxButtons.YesNo) == DialogResult.Yes)
             {
-                frmDangNhap frm = new frmDangNhap();
-                frm.Show();
-                this.Close();
+                System.Threading.Thread t = new System.Threading.Thread(new System.Threading.ThreadStart(OpenLoginForm));
+                Application.Exit();
+                t.Start();
             }
+        }
+        public static void OpenLoginForm()
+        {
+            Application.Run(new frmDangNhap()); //run your new form
         }
     }
 }

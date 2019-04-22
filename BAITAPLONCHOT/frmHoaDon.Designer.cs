@@ -117,7 +117,7 @@
             this.txtTimKiem.Location = new System.Drawing.Point(86, 7);
             this.txtTimKiem.Name = "txtTimKiem";
             this.txtTimKiem.Size = new System.Drawing.Size(164, 24);
-            this.txtTimKiem.TabIndex = 1;
+            this.txtTimKiem.TabIndex = 11;
             this.txtTimKiem.TextChanged += new System.EventHandler(this.txtTimKiem_TextChanged);
             // 
             // lvHoaDon
@@ -153,11 +153,11 @@
             // 
             this.columnHeader2.Text = "Tên NV";
             this.columnHeader2.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.columnHeader2.Width = 95;
+            this.columnHeader2.Width = 120;
             // 
             // columnHeader3
             // 
-            this.columnHeader3.Text = "Mã KH";
+            this.columnHeader3.Text = "Tên KH";
             this.columnHeader3.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.columnHeader3.Width = 95;
             // 
@@ -165,19 +165,19 @@
             // 
             this.columnHeader4.Text = "Ngày lập";
             this.columnHeader4.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.columnHeader4.Width = 95;
+            this.columnHeader4.Width = 85;
             // 
             // columnHeader5
             // 
             this.columnHeader5.Text = "Từ ngày";
             this.columnHeader5.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.columnHeader5.Width = 95;
+            this.columnHeader5.Width = 85;
             // 
             // columnHeader6
             // 
             this.columnHeader6.Text = "Đến ngày";
             this.columnHeader6.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.columnHeader6.Width = 95;
+            this.columnHeader6.Width = 85;
             // 
             // columnHeader7
             // 
@@ -214,7 +214,7 @@
             this.button5.Location = new System.Drawing.Point(453, 3);
             this.button5.Name = "button5";
             this.button5.Size = new System.Drawing.Size(142, 39);
-            this.button5.TabIndex = 11;
+            this.button5.TabIndex = 10;
             this.button5.Text = "In danh sách";
             this.button5.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
             this.button5.UseVisualStyleBackColor = true;
@@ -228,7 +228,7 @@
             this.btnThem.Location = new System.Drawing.Point(3, 3);
             this.btnThem.Name = "btnThem";
             this.btnThem.Size = new System.Drawing.Size(104, 39);
-            this.btnThem.TabIndex = 7;
+            this.btnThem.TabIndex = 6;
             this.btnThem.Text = "Thêm";
             this.btnThem.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.btnThem.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
@@ -242,7 +242,7 @@
             this.btnXoa.Location = new System.Drawing.Point(338, 3);
             this.btnXoa.Name = "btnXoa";
             this.btnXoa.Size = new System.Drawing.Size(109, 39);
-            this.btnXoa.TabIndex = 10;
+            this.btnXoa.TabIndex = 9;
             this.btnXoa.Text = "Xoá";
             this.btnXoa.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.btnXoa.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
@@ -257,7 +257,7 @@
             this.btnLuu.Location = new System.Drawing.Point(113, 3);
             this.btnLuu.Name = "btnLuu";
             this.btnLuu.Size = new System.Drawing.Size(109, 39);
-            this.btnLuu.TabIndex = 8;
+            this.btnLuu.TabIndex = 7;
             this.btnLuu.Text = "Lưu";
             this.btnLuu.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.btnLuu.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
@@ -271,7 +271,7 @@
             this.btnSua.Location = new System.Drawing.Point(228, 3);
             this.btnSua.Name = "btnSua";
             this.btnSua.Size = new System.Drawing.Size(104, 39);
-            this.btnSua.TabIndex = 9;
+            this.btnSua.TabIndex = 8;
             this.btnSua.Text = "Sửa";
             this.btnSua.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.btnSua.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
@@ -366,7 +366,7 @@
             this.txtMaHD.Name = "txtMaHD";
             this.txtMaHD.ReadOnly = true;
             this.txtMaHD.Size = new System.Drawing.Size(132, 24);
-            this.txtMaHD.TabIndex = 20;
+            this.txtMaHD.TabIndex = 21;
             // 
             // label4
             // 
@@ -391,16 +391,16 @@
             this.label5.AutoSize = true;
             this.label5.Location = new System.Drawing.Point(6, 108);
             this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(117, 18);
+            this.label5.Size = new System.Drawing.Size(121, 18);
             this.label5.TabIndex = 4;
-            this.label5.Text = "Mã khách hàng :";
+            this.label5.Text = "Tên khách hàng :";
             // 
             // txtMaKH
             // 
             this.txtMaKH.Location = new System.Drawing.Point(142, 105);
             this.txtMaKH.Name = "txtMaKH";
             this.txtMaKH.Size = new System.Drawing.Size(132, 24);
-            this.txtMaKH.TabIndex = 2;
+            this.txtMaKH.TabIndex = 1;
             // 
             // dNgayLap
             // 
@@ -408,7 +408,7 @@
             this.dNgayLap.Location = new System.Drawing.Point(730, 30);
             this.dNgayLap.Name = "dNgayLap";
             this.dNgayLap.Size = new System.Drawing.Size(132, 24);
-            this.dNgayLap.TabIndex = 3;
+            this.dNgayLap.TabIndex = 4;
             // 
             // label6
             // 
@@ -444,7 +444,7 @@
             this.txtChiSoMoi.Location = new System.Drawing.Point(450, 67);
             this.txtChiSoMoi.Name = "txtChiSoMoi";
             this.txtChiSoMoi.Size = new System.Drawing.Size(132, 24);
-            this.txtChiSoMoi.TabIndex = 5;
+            this.txtChiSoMoi.TabIndex = 3;
             this.txtChiSoMoi.TextChanged += new System.EventHandler(this.textBox5_TextChanged);
             this.txtChiSoMoi.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtChiSoMoi_KeyPress);
             // 
@@ -453,8 +453,9 @@
             this.txtThueGTGT.Location = new System.Drawing.Point(730, 67);
             this.txtThueGTGT.Name = "txtThueGTGT";
             this.txtThueGTGT.Size = new System.Drawing.Size(132, 24);
-            this.txtThueGTGT.TabIndex = 6;
+            this.txtThueGTGT.TabIndex = 5;
             this.txtThueGTGT.Text = "0,1";
+            this.txtThueGTGT.TextChanged += new System.EventHandler(this.txtThueGTGT_TextChanged);
             // 
             // label10
             // 
@@ -506,7 +507,7 @@
             this.txtChiSoCu.Location = new System.Drawing.Point(450, 30);
             this.txtChiSoCu.Name = "txtChiSoCu";
             this.txtChiSoCu.Size = new System.Drawing.Size(132, 24);
-            this.txtChiSoCu.TabIndex = 21;
+            this.txtChiSoCu.TabIndex = 2;
             this.txtChiSoCu.TextChanged += new System.EventHandler(this.txtChiSoCu_TextChanged);
             this.txtChiSoCu.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtChiSoCu_KeyPress);
             // 
